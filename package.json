@@ -40,7 +40,8 @@
     "debug": "NODE_ENV=development node ./debug.js",
     "lint": "./node_modules/eslint/bin/eslint.js src/ --fix --max-warnings=0 --report-unused-disable-directives && echo '✔  Your .js files look good.'",
     "test": "NODE_ENV=development node --trace-warnings node_modules/.bin/jest --passWithNoTests --coverage --runInBand",
-    "test:watch": "NODE_ENV=development node --trace-warnings node_modules/.bin/jest --passWithNoTests --watch --runInBand"
+    "test:watch": "NODE_ENV=development node --trace-warnings node_modules/.bin/jest --passWithNoTests --watch --runInBand",
+    "p": "npm version patch && git push github master --tags"
   },
   "bin": {
     "graphql-koa-scripts": "./src/bin.js"
