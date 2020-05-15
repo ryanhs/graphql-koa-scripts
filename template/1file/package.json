@@ -1,0 +1,16 @@
+{
+  "name": "foo-is-bar",
+  "version": "0.0.6",
+  "description": "-",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "graphql-koa-scripts": "^0.0.5"
+  },
+  "scripts": {
+    "start": "SDK_LOG_DEBUG_ENABLE=true NODE_ENV=development graphql-koa-scripts start index.js --dev"
+  },
+  "engines": {
+    "node": "^10.16"
+  }
+}
