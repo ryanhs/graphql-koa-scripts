@@ -1,0 +1,14 @@
+// this file intent to be run by ./bin.js
+/* eslint-disable import/no-dynamic-require */
+
+const meow = require('meow');
+
+// .env load
+require('dotenv').config();
+
+// our files
+const loader = require('./loader');
+const serve = require('./serve');
+
+// run the script
+loader().then((dependencies) => serve(dependencies, require(meow().input[0])));

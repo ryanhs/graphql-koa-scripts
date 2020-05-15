@@ -1,0 +1,58 @@
+{
+  "name": "graphql-koa-scripts",
+  "version": "0.0.4",
+  "description": "-",
+  "main": "src/bin.js",
+  "author": "ryanhs <mr.ryansilalahi@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@koa/router": "^8.0.8",
+    "apollo-server-koa": "^2.13.1",
+    "bluebird": "^3.7.2",
+    "dotenv": "^8.2.0",
+    "faker": "^4.1.0",
+    "flaverr": "^1.10.0",
+    "graphql": "^15.0.0",
+    "graphql-scalars": "^1.1.2",
+    "graphql-subscriptions": "^1.1.0",
+    "graphql-tag": "^2.10.3",
+    "hook-emitter": "^4.1.0",
+    "koa": "^2.11.0",
+    "meow": "^7.0.1",
+    "moment": "^2.25.3",
+    "ncurated": "^1.1.0",
+    "nodemon": "^2.0.3",
+    "safe-json-stringify": "^1.2.0",
+    "superagent": "^5.2.2",
+    "yup": "^0.28.5"
+  },
+  "devDependencies": {
+    "eslint": "^7.0.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jest": "^23.10.0",
+    "jest": "^26.0.1",
+    "jest-date-mock": "^1.0.8"
+  },
+  "scripts": {
+    "start": "node src/serve.js",
+    "dev": "NODE_ENV=development nodemon src/serve.js | bunyan -o short",
+    "debug": "NODE_ENV=development node ./debug.js",
+    "lint": "./node_modules/eslint/bin/eslint.js src/ --fix --max-warnings=0 --report-unused-disable-directives && echo '✔  Your .js files look good.'",
+    "test": "NODE_ENV=development node --trace-warnings node_modules/.bin/jest --passWithNoTests --coverage --runInBand",
+    "test:watch": "NODE_ENV=development node --trace-warnings node_modules/.bin/jest --passWithNoTests --watch --runInBand"
+  },
+  "bin": {
+    "graphql-koa-scripts": "./src/bin.js"
+  },
+  "engines": {
+    "node": "^10.16"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "setupFilesAfterEnv": [
+      "./jest.setup.js",
+      "jest-date-mock"
+    ]
+  }
+}
