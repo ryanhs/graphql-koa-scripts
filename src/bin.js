@@ -43,6 +43,7 @@ const cli = meow(`
 
 // if debug
 if (cli.input[0] === 'debug') {
+  process.env.SDK_LOG_DEBUG_ENABLE = true;
   loader()
     .then((dependencies) => {
       global.serve = (App) => serve(dependencies, require(path.resolve(App)));
@@ -57,18 +58,19 @@ else if (cli.input[0] === 'start' && cli.input[1]) {
 	  throw new Error(`File: (${mainFile}) doesn't exists!`);
   }
 
-  // load app
-  const App = require(mainFile);
-
-
   // load 'em all!
   if (!cli.flags.dev) {
+
+    const App = require(mainFile);
     loader().then((dependencies) => serve(dependencies, App));
+
   } else {
+
     nodemon(`${__dirname}/dev.js ${mainFile}`)
       .on('restart', (files) => {
         console.log('App restarted due to: ', files);
       });
+
   }
 }
 

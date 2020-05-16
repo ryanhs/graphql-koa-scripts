@@ -1,4 +1,4 @@
-// this file intent to be run by ./bin.js
+// this file intented to be run only by ./bin.js
 /* eslint-disable import/no-dynamic-require */
 
 const meow = require('meow');

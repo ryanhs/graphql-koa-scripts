@@ -6,6 +6,8 @@
 
 This scripts made to be simplify the setup of projects. with koa + apollo graphql + ncurated.
 
+I really want to make a project setup as simple as possible, 1 file js, 1 package.json, and 1 Dockerfile when needed. Thats it! no more overhead setup.
+
 ##### Example index.js
 
 with this enough index.js, graphql already setup. this is that make it simple.

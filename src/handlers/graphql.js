@@ -2,21 +2,18 @@ const { ApolloServer } = require('apollo-server-koa');
 
 module.exports = ({
   koaRouter, hook, sdk,
-}) => ({
-  endpointUrl = '/graphql',
-  typeDefs,
-  resolvers,
-}) => {
+}) => (options) => {
+  const { resolvers, typeDefs, endpointUrl = '/graphql' } = options;
+
   // setup server
   const server = new ApolloServer({
-    typeDefs,
-    resolvers,
     endpointUrl,
     formatError: (e) => {
       let code = 'E_UNKNOWN_ERROR';
-      let httpStatusCode = 500;
-      const { locations, path } = e;
       const message = e.message || 'Unexpected error occurred!';
+      let httpStatusCode = 500;
+
+      const { locations, path } = e;
       const stack = e.stack ? e.stack.split('\n') : [];
 
       // schema invalid
@@ -35,8 +32,11 @@ module.exports = ({
         httpStatusCode = 400;
       }
 
-      return ({
+      // tailor according env
+      return process.env.NODE_ENV === 'development' ? ({
         locations, path, message, code, httpStatusCode, stack,
+      }) : ({
+        locations, path, message, code, httpStatusCode,
       });
     },
     introspection: process.env.NODE_ENV === 'development',
@@ -46,23 +46,27 @@ module.exports = ({
         'request.credentials': 'same-origin',
       },
     },
-
+    ...options,
   });
 
-  // setup koa router /graphql
-  koaRouter.all(`${endpointUrl}/schema`, (ctx) => { ctx.body = typeDefs; });
+  // setup koa router /graphql/schema for dev environment, easier to read
+  if (process.env.NODE_ENV === 'development') {
+    koaRouter.all(`${endpointUrl}/schema`, (ctx) => { ctx.body = typeDefs; });
+  }
+
+  // setup graphql api based on endpointUrl
   koaRouter.all(endpointUrl, server.getMiddleware({
     path: endpointUrl,
   }));
-  hook.on('http:listen:after', () => {
-    sdk.log.info('🚀 Graphql ready!', { service: 'graphql', endpointUrl });
-  });
+
+  // notify
+  sdk.log.info('🚀 Graphql attached!', { service: 'graphql', endpointUrl });
 
   // setup ws /graphql if we have it
   if (resolvers.Subscription) {
     hook.on('http:listen:after', ({ httpServer }) => {
-      sdk.log.info('🚀 WS ready!', { service: 'graphql-ws', endpointUrl });
       server.installSubscriptionHandlers(httpServer);
+      sdk.log.info('🚀 WS ready!', { service: 'graphql-ws', endpointUrl });
     });
   }
 

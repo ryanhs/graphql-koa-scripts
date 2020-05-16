@@ -1,16 +1,29 @@
 // need dependencies from loader
 module.exports = (d, App) => bluebird.resolve(d)
   // if app is function, and need dependencies, then give if
-  .then(async (dependencies) => {
+  .then(async (deps) => {
     const app = typeof App === 'function'
-      ? await Promise.resolve(App(dependencies)) // async enabled
+      ? await Promise.resolve(App(deps)) // async enabled
       : App;
+
+    let dependencies = deps;
+
+    // App configure? combine dependencies then.
+    if (typeof app.configure === 'function') {
+      dependencies = { ...deps, ...app.configure(deps) };
+      sdk.log.trace('App configure called!', { service: 'configure' });
+    }
 
     // register hooks
     if (Array.isArray(app.hooks)) {
-      app.hooks.forEach(({ on, fn }) => {
-        dependencies.hook.on(on, fn);
-        sdk.log.trace({ service: 'hook', registered: on, by: 'App' });
+      // fn or listener is ok
+      app.hooks.forEach(({
+        on, priority = 0, fn, listener,
+      }) => {
+        dependencies.hook.on(on, priority, fn || listener || (() => {}));
+        sdk.log.trace({
+          service: 'hook', registered: on, by: 'App', priority,
+        });
       });
     }
 
@@ -18,7 +31,11 @@ module.exports = (d, App) => bluebird.resolve(d)
   })
 
   // combine them all
-  .tap(async ({ app, koa, koaRouter }) => {
+  .tap(async (deps) => {
+    const {
+      app, koa, koaRouter, graphqlPubSub,
+    } = deps;
+
     // healthchecks ping
     koaRouter.get('/healthcheck', require('./defaults/ping'));
     koaRouter.get('/ping', require('./defaults/ping'));
@@ -33,12 +50,14 @@ module.exports = (d, App) => bluebird.resolve(d)
 
     // if app wants router, then pass it
     if (app.router) {
-      await app.router(koaRouter);
+      await app.router(koaRouter, deps);
     }
 
     // listen
     const port = process.env.PORT || 4001;
     Hook.emit('http:listen:before', { port });
-    const httpServer = koa.listen(port, () => sdk.log.info(`🚀 HTTP ready on port: ${port}`));
-    Hook.emit('http:listen:after', { httpServer, port });
+    const httpServer = koa.listen(port, () => {
+      sdk.log.info(`🚀 HTTP ready on port: ${port}`);
+      Hook.emit('http:listen:after', { httpServer, port });
+    });
   });
