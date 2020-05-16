@@ -27,6 +27,7 @@
     "yup": "^0.28.5"
   },
   "devDependencies": {
+    "docsify-cli": "^4.4.0",
     "eslint": "^7.0.0",
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-plugin-import": "^2.20.2",
@@ -41,6 +42,7 @@
     "lint": "./node_modules/eslint/bin/eslint.js src/ --fix --max-warnings=0 --report-unused-disable-directives && echo '✔  Your .js files look good.'",
     "test": "NODE_ENV=development node --trace-warnings node_modules/.bin/jest --passWithNoTests --coverage --runInBand",
     "test:watch": "NODE_ENV=development node --trace-warnings node_modules/.bin/jest --passWithNoTests --watch --runInBand",
+    "docs": "docsify serve docs",
     "p": "npm version patch && git push github master --tags"
   },
   "bin": {
