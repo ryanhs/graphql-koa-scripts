@@ -1,6 +1,6 @@
 {
   "name": "graphql-koa-scripts",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "-",
   "main": "src/bin.js",
   "author": "ryanhs <mr.ryansilalahi@gmail.com>",
