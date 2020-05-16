@@ -1,6 +1,7 @@
 # Graphql Koa Scripts
 
-**documentation still on going :-)**
+
+Documentation: [https://ryanhs.github.io/graphql-koa-scripts/](https://ryanhs.github.io/graphql-koa-scripts/)
 
 ## Motivation
 
