@@ -55,5 +55,8 @@
       "./jest.setup.js",
       "jest-date-mock"
     ]
-  }
+  },
+  "files": [
+    "src/"
+  ]
 }
