@@ -1,6 +1,6 @@
 # Graphql Koa Scripts
 
-**documentation still on going :-)**
+**Still Early Release**. We still testing it in our own production server. Stable version **1.0** come soon!
 
 ## Motivation
 

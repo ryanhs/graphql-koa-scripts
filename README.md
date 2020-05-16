@@ -1,5 +1,6 @@
 # Graphql Koa Scripts
 
+**Still Early Release**. We still testing it in our own production server. Stable version **1.0** come soon!
 
 Documentation: [https://ryanhs.github.io/graphql-koa-scripts/](https://ryanhs.github.io/graphql-koa-scripts/)
 
