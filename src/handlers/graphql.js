@@ -66,7 +66,7 @@ module.exports = ({
 
   // notify
   sdk.log.info('🚀 Graphql attached!', { service: 'graphql', endpointUrl });
-  hook.emit('http:graphqlHandler:added', { server, options })
+  hook.emit('http:graphqlHandler:added', { server, options });
 
   // setup ws /graphql if we have it
   if (resolvers.Subscription) {
@@ -77,5 +77,5 @@ module.exports = ({
   }
 
   // return apollo server
-  return server
+  return server;
 };

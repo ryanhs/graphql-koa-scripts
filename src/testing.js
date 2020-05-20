@@ -32,7 +32,7 @@ module.exports.Server = bluebird.method(async (App) => {
   if (typeof App === 'string') {
     const mainFile = path.resolve(App);
     if (!fs.existsSync(mainFile)) {
-  	  throw new Error(`File: (${mainFile}) doesn't exists!`);
+      throw new Error(`File: (${mainFile}) doesn't exists!`);
     }
 
     app = require(mainFile);
@@ -43,12 +43,12 @@ module.exports.Server = bluebird.method(async (App) => {
 
   // hold all apollo server to make testing easier
   const apolloClients = {};
-  dependencies.hook.on('http:graphqlHandler:added', ({ server, options: { endpointUrl }  }) => {
-    apolloClients[endpointUrl] = createTestClient(server)
+  dependencies.hook.on('http:graphqlHandler:added', ({ server, options: { endpointUrl } }) => {
+    apolloClients[endpointUrl] = createTestClient(server);
   });
 
   // serve
   dependencies = await serve(dependencies, app);
 
-  return { ...dependencies, apolloClients }
-})
+  return { ...dependencies, apolloClients };
+});
