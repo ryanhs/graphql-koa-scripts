@@ -14,7 +14,12 @@ module.exports = ({
       let httpStatusCode = 500;
 
       const { locations, path } = e;
-      const stack = e.stack ? e.stack.split('\n') : [];
+      let stack = e.stack ? e.stack.split('\n') : [];
+
+      // custom stack from extensions? oke lets go.
+      if (e.extensions && e.extensions.exception && e.extensions.exception.stacktrace) {
+        stack = stack.concat(e.extensions.exception.stacktrace);
+      }
 
       // schema invalid
       if (message.match(/Expected type/g) !== null || message.endsWith('is required, but it was not provided.')) {
@@ -61,6 +66,7 @@ module.exports = ({
 
   // notify
   sdk.log.info('🚀 Graphql attached!', { service: 'graphql', endpointUrl });
+  hook.emit('http:graphqlHandler:added', { server, options })
 
   // setup ws /graphql if we have it
   if (resolvers.Subscription) {
@@ -70,4 +76,6 @@ module.exports = ({
     });
   }
 
+  // return apollo server
+  return server
 };

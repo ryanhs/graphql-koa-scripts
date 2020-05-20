@@ -8,6 +8,7 @@
   "dependencies": {
     "@koa/router": "^8.0.8",
     "apollo-server-koa": "^2.13.1",
+    "apollo-server-testing": "^2.13.1",
     "bluebird": "^3.7.2",
     "dotenv": "^8.2.0",
     "faker": "^4.1.0",
@@ -60,5 +61,8 @@
   },
   "files": [
     "src/"
-  ]
+  ],
+  "exports": {
+    "./testing": "./src/testing.js"
+  }
 }

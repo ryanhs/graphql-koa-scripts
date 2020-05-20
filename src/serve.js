@@ -1,5 +1,6 @@
 // need dependencies from loader
 module.exports = (d, App) => bluebird.resolve(d)
+
   // if app is function, and need dependencies, then give if
   .then(async (deps) => {
     const app = typeof App === 'function'
@@ -52,6 +53,9 @@ module.exports = (d, App) => bluebird.resolve(d)
     if (app.router) {
       await app.router(koaRouter, deps);
     }
+
+    // skip listen, if necassary
+    if (global.GRAPHQL_KOA_SCRIPTS_DISABLE_LISTEN) return;
 
     // listen
     const port = process.env.PORT || 4001;
