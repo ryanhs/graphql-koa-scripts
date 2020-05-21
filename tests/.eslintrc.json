@@ -23,21 +23,22 @@
         "ecmaVersion": 2018
     },
     "plugins": ["jest"],
+    "overrides": [
+      {
+        "files": ["**/*.test.js"],
+        "extends": ["plugin:jest/recommended"]
+      }
+    ],
     "rules": {
       "camelcase": "off",
       "no-console": "warn",
       "no-trailing-spaces": "off",
       "global-require": "off",
       "padded-blocks": "off",
-      "no-unused-vars": "warn",
+      "no-unused-vars": "off",
+      "jest/expect-expect": "off",
       "no-param-reassign": ["error", { "props": false }],
       "radix": "warn",
       "max-len": [ "error", 160 ]
-    },
-    "overrides": [
-      {
-        "files": ["**/*.test.js"],
-        "extends": ["plugin:jest/recommended"]
-      }
-    ]
+    }
 }

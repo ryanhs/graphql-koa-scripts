@@ -8,7 +8,7 @@
     "graphql-koa-scripts": "^0.0.5"
   },
   "scripts": {
-    "start": "SDK_LOG_DEBUG_ENABLE=true NODE_ENV=development graphql-koa-scripts start index.js --dev"
+    "start": "NODE_ENV=development graphql-koa-scripts start index.js --dev"
   },
   "engines": {
     "node": "^10.16"

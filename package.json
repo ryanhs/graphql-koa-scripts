@@ -10,8 +10,8 @@
     "apollo-server-koa": "^2.13.1",
     "apollo-server-testing": "^2.13.1",
     "bluebird": "^3.7.2",
+    "bunyan": "^1.8.12",
     "dotenv": "^8.2.0",
-    "faker": "^4.1.0",
     "flaverr": "^1.10.0",
     "graphql": "^15.0.0",
     "graphql-scalars": "^1.1.2",
@@ -20,12 +20,9 @@
     "hook-emitter": "^4.1.0",
     "koa": "^2.11.0",
     "meow": "^7.0.1",
-    "moment": "^2.25.3",
-    "ncurated": "^1.1.0",
     "nodemon": "^2.0.3",
     "safe-json-stringify": "^1.2.0",
-    "superagent": "^5.2.2",
-    "yup": "^0.28.5"
+    "superagent": "^5.2.2"
   },
   "devDependencies": {
     "docsify-cli": "^4.4.0",
@@ -34,15 +31,16 @@
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-jest": "^23.10.0",
     "jest": "^26.0.1",
-    "jest-date-mock": "^1.0.8"
+    "jest-date-mock": "^1.0.8",
+    "supertest": "^4.0.2"
   },
   "scripts": {
-    "start": "node src/serve.js",
+    "start": "npm run test:watch",
     "dev": "NODE_ENV=development nodemon src/serve.js | bunyan -o short",
     "debug": "NODE_ENV=development node ./debug.js",
-    "lint": "./node_modules/eslint/bin/eslint.js src/ --fix --max-warnings=0 --report-unused-disable-directives && echo '✔  Your .js files look good.'",
-    "test": "NODE_ENV=development node --trace-warnings node_modules/.bin/jest --passWithNoTests --coverage --runInBand",
-    "test:watch": "NODE_ENV=development node --trace-warnings node_modules/.bin/jest --passWithNoTests --watch --runInBand",
+    "lint": "./node_modules/eslint/bin/eslint.js src/ tests/ --fix --max-warnings=0 --report-unused-disable-directives && echo '✔  Your .js files look good.'",
+    "test": "NODE_ENV=development node --trace-warnings node_modules/.bin/jest --passWithNoTests --coverage",
+    "test:watch": "NODE_ENV=development node --trace-warnings node_modules/.bin/jest --passWithNoTests --watch",
     "docs": "docsify serve docs",
     "p": "npm version patch && git push github master --tags"
   },

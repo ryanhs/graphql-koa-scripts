@@ -6,7 +6,7 @@ Documentation: [https://ryanhs.github.io/graphql-koa-scripts/](https://ryanhs.gi
 
 ## Motivation
 
-This scripts made to be simplify the setup of projects. with koa + apollo graphql + ncurated.
+This scripts made to be simplify the setup of projects. with koa + apollo graphql.
 
 I really want to make a project setup as simple as possible, 1 file js, 1 package.json, and 1 Dockerfile when needed. Thats it! no more overhead setup.
 
@@ -57,7 +57,7 @@ example package.json:
     "graphql-koa-scripts": "^0.0.5"
   },
   "scripts": {
-    "start": "SDK_LOG_DEBUG_ENABLE=true NODE_ENV=development graphql-koa-scripts start index.js --dev"
+    "start": "NODE_ENV=development graphql-koa-scripts start index.js --dev"
   }
 }
 

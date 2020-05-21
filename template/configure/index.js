@@ -1,7 +1,7 @@
 const { RedisPubSub } = require('graphql-redis-subscriptions');
 const { withFilter } = require('graphql-subscriptions');
 
-module.exports = ({ graphqlHandler }) => {
+module.exports = ({ graphqlHandler, logger }) => {
   return ({
 
     // in this stage, its usefull to modify existing dependencies.
@@ -27,13 +27,13 @@ module.exports = ({ graphqlHandler }) => {
     router(r, deps) {
 
       // foo called here
-      sdk.log.warn('deps.foo', deps.foo)
+      logger.warn('deps.foo', deps.foo)
 
       // lets examine graphqlPubSub on deps scope
-      sdk.log.info(`deps.graphqlPubSub => ${deps.graphqlPubSub.constructor.name}`)
+      logger.info(`deps.graphqlPubSub => ${deps.graphqlPubSub.constructor.name}`)
 
       // lets examine graphqlPubSub on global scope
-      sdk.log.info(`global.graphqlPubSub => ${graphqlPubSub.constructor.name}`)
+      logger.info(`global.graphqlPubSub => ${graphqlPubSub.constructor.name}`)
 
 
       // test qs
@@ -69,7 +69,7 @@ module.exports = ({ graphqlHandler }) => {
 
     hooks: [
       { on: 'http:listen:after', priority: -1, fn: () => {
-        sdk.log.info('you can type `redis-cli monitor` to check the Subscription!')
+        logger.info('you can type `redis-cli monitor` to check the Subscription!')
       }},
     ]
 

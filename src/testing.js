@@ -17,7 +17,7 @@ global.GRAPHQL_KOA_SCRIPTS_DISABLE_LISTEN = true;
 
 
 // our files
-const loader = require('./loader');
+const loader = require('./loaders');
 const serve = require('./serve');
 
 // needed? oke

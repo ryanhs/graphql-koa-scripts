@@ -9,7 +9,7 @@
     "graphql-redis-subscriptions": "^2.2.1"
   },
   "scripts": {
-    "dev": "SDK_LOG_DEBUG_ENABLE=true NODE_ENV=development graphql-koa-scripts start index.js --dev | bunyan -o short"
+    "start": "NODE_ENV=development graphql-koa-scripts start index.js --dev | bunyan -o short"
   },
   "engines": {
     "node": "^10.16"

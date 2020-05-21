@@ -14,7 +14,7 @@ const nodemon = require('nodemon');
 require('dotenv').config();
 
 // our files
-const loader = require('./loader');
+const loader = require('./loaders');
 const serve = require('./serve');
 
 const cli = meow(`
