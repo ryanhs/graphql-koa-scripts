@@ -42,6 +42,7 @@
     "test": "NODE_ENV=development node --trace-warnings node_modules/.bin/jest --passWithNoTests --coverage",
     "test:watch": "NODE_ENV=development node --trace-warnings node_modules/.bin/jest --passWithNoTests --watch",
     "docs": "docsify serve docs",
+    "coveralls:push": "cat ./coverage/lcov.info | coveralls",
     "p": "npm version patch && git push github master --tags"
   },
   "bin": {
