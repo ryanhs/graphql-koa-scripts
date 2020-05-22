@@ -1,0 +1,13 @@
+dist: bionic
+language: node_js
+cache: npm
+node_js:
+- "8.11"
+- "10.16"
+- "12"
+- "14"
+
+script:
+  - yarn test
+  - echo $COVERALLS_TOKEN | tee .coveralls.yml
+  - yarn coveralls:push
