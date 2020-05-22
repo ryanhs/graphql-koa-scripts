@@ -41,7 +41,7 @@
     "lint": "./node_modules/eslint/bin/eslint.js src/ tests/ --fix --max-warnings=0 --report-unused-disable-directives && echo '✔  Your .js files look good.'",
     "test": "NODE_ENV=development node --trace-warnings node_modules/.bin/jest --passWithNoTests --coverage",
     "test:watch": "NODE_ENV=development node --trace-warnings node_modules/.bin/jest --passWithNoTests --watch",
-    "docs": "docsify serve docs",
+    "docs": "dos2unix node_modules/docsify-cli/bin/docsify && docsify serve docs/",
     "coveralls:push": "cat ./coverage/lcov.info | coveralls",
     "p": "npm version patch && git push github master --tags"
   },
