@@ -48,7 +48,7 @@
     "graphql-koa-scripts": "./src/cli/bin.js"
   },
   "engines": {
-    "node": "^10.16"
+    "node": ">=10.16"
   },
   "jest": {
     "testEnvironment": "node",

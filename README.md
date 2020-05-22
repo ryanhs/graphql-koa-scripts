@@ -1,5 +1,7 @@
 # Graphql Koa Scripts
 
+[![Build Status](https://travis-ci.com/ryanhs/graphql-koa-scripts.svg?branch=master)](https://travis-ci.com/ryanhs/graphql-koa-scripts)  [![Coverage Status](https://coveralls.io/repos/github/ryanhs/graphql-koa-scripts/badge.svg?branch=master)](https://coveralls.io/github/ryanhs/graphql-koa-scripts?branch=master)  
+
 **Still Early Release**. We still testing it in our own production server. Stable version **1.0** come soon!
 
 Documentation: [https://ryanhs.github.io/graphql-koa-scripts/](https://ryanhs.github.io/graphql-koa-scripts/)
