@@ -1,2 +1,2 @@
 // just a shortcut/link
-module.exports = require('../src/testing')
+module.exports = require('../src')

@@ -7,8 +7,8 @@ const meow = require('meow');
 require('dotenv').config();
 
 // our files
-const loader = require('./loaders');
-const serve = require('./serve');
+const loader = require('../loaders');
+const serve = require('../serve');
 
 // run the script
 loader().then((dependencies) => serve(dependencies, require(meow().input[0])));

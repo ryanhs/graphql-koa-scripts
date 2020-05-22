@@ -1,6 +1,6 @@
 const ping = require('../defaults/ping');
 
-module.exports = async ({ koaRouter, graphqlPubSub }) => {
+module.exports = async ({ koaRouter, graphqlPubSub, hook }) => {
 
   // healthchecks ping
   koaRouter.get('/healthcheck', ping);
@@ -14,5 +14,7 @@ module.exports = async ({ koaRouter, graphqlPubSub }) => {
     graphqlPubSub.publish(channel, payload);
   }, 3000);
 
-  return { interval }
-}
+  hook.emit('healthcheck:added', { interval });
+
+  return { interval };
+};

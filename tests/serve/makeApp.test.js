@@ -7,44 +7,44 @@ const makeApp = require('../../src/serve/makeApp');
 describe('make the App', () => {
 
   it('empty app {}', async () => {
-    const dependencies = await Loader()
+    const dependencies = await Loader();
 
     const newDependencies = await makeApp(dependencies, {});
 
     // no changes
-    expect(newDependencies).toMatchObject(dependencies)
+    expect(newDependencies).toMatchObject(dependencies);
   });
 
   it('app as function', async () => {
-    const dependencies = await Loader()
+    const dependencies = await Loader();
 
     const App = jest.fn().mockReturnValue({});
 
     const newDependencies = await makeApp(dependencies, App);
 
     // app called
-    expect(App).toHaveBeenCalled()
+    expect(App).toHaveBeenCalled();
 
     // no changes
-    expect(newDependencies).toMatchObject(dependencies)
+    expect(newDependencies).toMatchObject(dependencies);
   });
 
   it('app as async function', async () => {
-    const dependencies = await Loader()
+    const dependencies = await Loader();
 
     const App = jest.fn().mockResolvedValue({});
 
     const newDependencies = await makeApp(dependencies, App);
 
     // app called
-    expect(App).toHaveBeenCalled()
+    expect(App).toHaveBeenCalled();
 
     // no changes
-    expect(newDependencies).toMatchObject(dependencies)
+    expect(newDependencies).toMatchObject(dependencies);
   });
 
   it('can configure, replace logger', async () => {
-    const dependencies = await Loader()
+    const dependencies = await Loader();
 
     const mock = jest.fn();
 
@@ -56,18 +56,18 @@ describe('make the App', () => {
           info: mock,
           warn: mock,
           error: mock,
-        }
-      })
-    }
+        },
+      }),
+    };
 
     const newDependencies = await makeApp(dependencies, App);
 
     // configure called
-    expect(mock).toHaveBeenCalled()
+    expect(mock).toHaveBeenCalled();
 
     // no changes
-    expect(newDependencies.logger).not.toBe(dependencies.logger)
-    expect(newDependencies.logger.modified).toBe(true)
+    expect(newDependencies.logger).not.toBe(dependencies.logger);
+    expect(newDependencies.logger.modified).toBe(true);
   });
 
   it('add router', async () => {
@@ -75,9 +75,9 @@ describe('make the App', () => {
       router(r) {
         r.get('/foo', (ctx) => {
           ctx.body = 'bar';
-        })
-      }
-    }
+        });
+      },
+    };
     const { koa } = await makeApp(await Loader(), App);
 
     await request(http.createServer(koa.callback()))
@@ -91,10 +91,10 @@ describe('make the App', () => {
   it('add hooks simple', async () => {
     const App = {
       hooks: [
-        { on: 'test1', fn: () => null, },
-        { on: 'test2', fn: () => null, },
-      ]
-    }
+        { on: 'test1', fn: () => null },
+        { on: 'test2', fn: () => null },
+      ],
+    };
     const { hook } = await makeApp(await Loader(), App);
 
     expect(hook.events.keys()).toContain('test1');
@@ -107,12 +107,12 @@ describe('make the App', () => {
       hooks: [
         { on: 'test1', priority: 111, fn: mock },
         { on: 'test1', priority: 222, listener: mock },
-      ]
-    }
+      ],
+    };
     const { hook } = await makeApp(await Loader(), App);
 
     // contain priority
-    const priorities = Array.from(hook.events.values())[0].map(v => v.priority);
+    const priorities = Array.from(hook.events.values())[0].map((v) => v.priority);
     expect(priorities).toContain(111);
     expect(priorities).toContain(222);
   });
@@ -123,13 +123,13 @@ describe('make the App', () => {
       hooks: [
         { on: 'test1', priority: 111, fn: mock },
         { on: 'test1', priority: 222, listener: mock },
-      ]
-    }
+      ],
+    };
     const { hook } = await makeApp(await Loader(), App);
 
     // called
     hook.emit('test1');
-    expect(mock).toHaveBeenCalledTimes(2)
+    expect(mock).toHaveBeenCalledTimes(2);
   });
 
 });
