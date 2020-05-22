@@ -20,3 +20,6 @@ lib-cov
 *.pid
 
 .env
+
+yarn.lock
+package-lock.json
