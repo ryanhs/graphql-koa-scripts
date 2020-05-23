@@ -3,10 +3,10 @@ const { Server } = require('../../../src');
 
 describe('can create a server inline', () => {
 
-  const App = ({ graphqlHandler }) => ({
+  const App = ({
     configure: () => ({ PORT: 14099 }),
 
-    router(r) {
+    router(_, { graphqlHandler }) {
       graphqlHandler({
         typeDefs: `
             type Query {
