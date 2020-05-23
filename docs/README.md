@@ -27,25 +27,19 @@ with this enough `index.js`, graphql already setup. This what simple is?
 *Notes: if you use subscription on your graphql, it will automatically listen subscription-ws.*
 
 ```javascript
-module.exports = ({ graphqlHandler }) => ({
+const { Server } = require('graphql-koa-scripts');
 
-  configure() {
-    return { PORT: 14099 };
-  },
+Server(({ graphqlHandler }) => ({
 
-  // use koa-router
+  configure: () => ({ PORT: 8080 }),
+
   router(r) {
-
-    // test qs
-    r.get('/qs', (ctx) => { ctx.body = ctx.query; });
-
-    // its ok to add handlers here
     graphqlHandler({
       typeDefs: `
-        type Query {
-          hello: String
-        }
-      `,
+          type Query {
+            hello: String
+          }
+        `,
       resolvers: {
         Query: {
           hello: () => 'Awesome!',
@@ -53,10 +47,9 @@ module.exports = ({ graphqlHandler }) => ({
       },
       endpointUrl: '/graphql',
     });
-
   },
 
-});
+}))
 ```
 
 Just run it with `npm run start`.
