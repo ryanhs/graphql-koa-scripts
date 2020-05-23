@@ -28,11 +28,10 @@ With this enough `index.js`, graphql already setup. This what simple is?
 ```javascript
 const { Server } = require('graphql-koa-scripts');
 
-Server(({ graphqlHandler }) => ({
+Server({
+  configure: () => ({ PORT: 14099 }),
 
-  configure: () => ({ PORT: 8080 }),
-
-  router(r) {
+  router(_, { graphqlHandler }) {
     graphqlHandler({
       typeDefs: `
           type Query {
@@ -47,8 +46,7 @@ Server(({ graphqlHandler }) => ({
       endpointUrl: '/graphql',
     });
   },
-
-}))
+})
 ```
 
 

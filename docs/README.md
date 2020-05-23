@@ -29,11 +29,10 @@ with this enough `index.js`, graphql already setup. This what simple is?
 ```javascript
 const { Server } = require('graphql-koa-scripts');
 
-Server(({ graphqlHandler }) => ({
+Server({
+  configure: () => ({ PORT: 14099 }),
 
-  configure: () => ({ PORT: 8080 }),
-
-  router(r) {
+  router(_, { graphqlHandler }) {
     graphqlHandler({
       typeDefs: `
           type Query {
@@ -48,26 +47,7 @@ Server(({ graphqlHandler }) => ({
       endpointUrl: '/graphql',
     });
   },
-
-}))
-```
-
-Just run it with `npm run start`.
-
-example package.json:
-
-```json
-{
-  ...
-  "dependencies": {
-    ...
-    "graphql-koa-scripts": "^0.0.13"
-  },
-  "scripts": {
-    "start": "NODE_ENV=development graphql-koa-scripts start index.js --dev"
-  }
-}
-
+})
 ```
 
 
@@ -79,11 +59,14 @@ yarn add graphql-koa-scripts
 ```
 
 
-## [Examples](examples/index.md)
+## [Examples](examples.md)
 
-
-
+## [API References](API.md)
 
 ## LICENSE
 
 MIT
+
+---
+
+\*Docs powered by https://github.com/docsifyjs/docsify/

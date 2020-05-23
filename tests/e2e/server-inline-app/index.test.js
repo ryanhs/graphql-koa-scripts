@@ -9,10 +9,10 @@ describe('can create a server inline', () => {
     router(_, { graphqlHandler }) {
       graphqlHandler({
         typeDefs: `
-            type Query {
-              hello: String
-            }
-          `,
+          type Query {
+            hello: String
+          }
+        `,
         resolvers: {
           Query: {
             hello: () => 'Awesome!',

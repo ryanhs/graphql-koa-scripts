@@ -10,10 +10,10 @@ module.exports = ({ graphqlHandler }) => ({
     // its ok to add handlers here
     graphqlHandler({
       typeDefs: `
-          type Query {
-            hello: String
-          }
-        `,
+        type Query {
+          hello: String
+        }
+      `,
       resolvers: {
         Query: {
           hello: () => 'Awesome!',
