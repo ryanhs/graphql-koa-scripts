@@ -57,7 +57,11 @@ To install just use `yarn` or `npm`. Example:
 yarn add graphql-koa-scripts
 ```
 
-## [Examples](https://ryanhs.github.io/graphql-koa-scripts/#/examples/index)
+
+## [Examples](https://ryanhs.github.io/graphql-koa-scripts/#/examples)
+
+
+## [API References](https://ryanhs.github.io/graphql-koa-scripts/#/API)
 
 
 ## LICENSE
