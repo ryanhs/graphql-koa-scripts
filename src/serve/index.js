@@ -9,7 +9,7 @@ module.exports = (d, App) => d.bluebird.resolve(d)
   .then((dependencies) => makeApp(dependencies, App))
 
   // addHealthcheck
-  .tap((dependencies) => addHealthcheck(dependencies))
+  .tap((dependencies) => dependencies.DISABLE_HEALTHCHECK || addHealthcheck(dependencies))
 
   // listenHttp
-  .tap((dependencies) => listenHttp(dependencies));
+  .tap((dependencies) => dependencies.DISABLE_LISTEN || listenHttp(dependencies));

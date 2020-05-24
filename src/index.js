@@ -77,11 +77,10 @@ module.exports.Server = bluebird.method(async (App) => {
   });
 
   // trap httpServer
-  let httpServer = { close: () => null };
+  let httpServer = { close: (cb) => cb() };
   dependencies.hook.on('http:listen:after', ({ httpServer: tmpHttpServer }) => {
     httpServer = tmpHttpServer;
   });
-
 
   // serve
   dependencies = await module.exports.serve(dependencies, app);

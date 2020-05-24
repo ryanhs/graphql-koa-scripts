@@ -27,15 +27,6 @@ const buildDeps = async () => {
 
 describe('it listen http ', () => {
 
-  it('dont listen on DISABLE_LISTEN=true', async () => {
-    const dependencies = await buildDeps();
-
-    dependencies.DISABLE_LISTEN = true;
-
-    // return no httpServer
-    await expect(listenHttp(dependencies)).resolves.toStrictEqual({});
-  });
-
   it('listen called', async () => {
     const dependencies = await buildDeps();
     const koa = {

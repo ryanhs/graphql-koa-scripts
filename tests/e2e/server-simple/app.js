@@ -1,7 +1,7 @@
 module.exports = ({ graphqlHandler }) => ({
 
   configure() {
-    return { PORT: 14099 };
+    return { PORT: 13002 };
   },
 
   // use koa-router

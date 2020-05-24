@@ -4,7 +4,7 @@ const { Server } = require('../../../src');
 describe('can create a server inline', () => {
 
   const App = ({
-    configure: () => ({ PORT: 14099 }),
+    configure: () => ({ PORT: 13001 }),
 
     router(_, { graphqlHandler }) {
       graphqlHandler({
@@ -29,7 +29,7 @@ describe('can create a server inline', () => {
     const { quit } = await Server(App);
 
     const res = superagent
-      .post('http://localhost:14099/graphql')
+      .post('http://localhost:13001/graphql')
       .type('json')
       .send({
         query: '{ hello }',

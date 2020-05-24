@@ -390,3 +390,4 @@ All the dependencies can be changed via `configure`. Here are the list of curren
 
 - `PORT`, defaultsTo: `PORT || process.env.PORT || 4001`
 - `DISABLE_LISTEN`, defaultsTo: `false`
+- `DISABLE_HEALTHCHECK`, set it to `true`, if you want to disable it

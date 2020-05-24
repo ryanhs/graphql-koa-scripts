@@ -1,9 +1,6 @@
 module.exports = async function listenHttp({
-  koa, hook, logger, DISABLE_LISTEN, PORT,
+  koa, hook, logger, PORT,
 }) {
-  // skip listen, if necessary
-  if (DISABLE_LISTEN) return {};
-
   // listen
   const port = PORT || process.env.PORT || 4001;
 

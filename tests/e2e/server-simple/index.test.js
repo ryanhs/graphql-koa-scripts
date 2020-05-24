@@ -16,7 +16,7 @@ describe('can create a server ', () => {
     const { quit } = await Server(`${__dirname}/app.js`);
 
     const res = superagent
-      .post('http://localhost:14099/graphql')
+      .post('http://localhost:13002/graphql')
       .type('json')
       .send({
         query: '{ hello }',
