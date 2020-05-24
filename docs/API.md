@@ -230,7 +230,7 @@ graphqlHandler({
 !> Known bug: only 1 `graphqlHandler` that can have subscription. Multiple graphql endpointUrl with different subscription still considered to be added.
 
 
-## Server()
+## Server(App)
 
 `Server` is a Function that take your `App` and make blend it into `koa` and `apollo server`.
 
@@ -287,7 +287,7 @@ Server(`${__dirname}/http/listen.js`);
 \*hint: This usage, is usefull in `TestServer`.
 
 
-## TestServer()
+## TestServer(App)
 
 
 E2E test need full graphql server, in that manner, we provide `TestServer`, that leverage `apollo-server-testing`.
@@ -373,6 +373,37 @@ const res = apolloClients['/graphql'].query({
 ```
 
 More reference: https://www.apollographql.com/docs/apollo-server/testing/testing/#createtestclient
+
+
+## UsingTestServer(App, fn)
+
+> A wrapper of bluebird.using, wrap quit() as disposer. easier testing
+
+For easier testing when you just want to do `expect()...` without worrying about `quit()`.
+
+example:
+
+```javascript
+const { UsingTestServer } = require('graphql-koa-scripts');
+
+describe('using TestServer(App).test(fn)', () => {
+
+  it(
+    'try some action',
+    UsingTestServer(`${__dirname}/app.js`, async ({ supertest }) => {
+
+      expect('do some expect').not.toBe('in here');
+
+    }),
+  );
+
+});
+```
+
+**fn**
+
+You can write fn as `async (dependencies) => { ... }`
+
 
 ## Dependencies (Context)
 

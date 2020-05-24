@@ -68,3 +68,42 @@ describe('test server ok', () => {
 ```
 
 > `TestServer(App)`, App can be string to absolute-path filename, or object or Function.
+
+
+### UsingTestServer
+
+> A wrapper of bluebird.using, wrap quit() as disposer. easier testing
+
+```javascript
+const { UsingTestServer } = require('graphql-koa-scripts');
+
+describe('using TestServer(App).test(fn)', () => {
+
+  it(
+    'try /qs',
+    UsingTestServer(`${__dirname}/app.js`, async ({ supertest }) => {
+      const response = supertest.get('/qs?foo=bar');
+      await expect(response).resolves.not.toThrow();
+
+      const { body } = await response;
+      expect(body).toMatchObject({ foo: 'bar' });
+    }),
+  );
+
+  it(
+    'try graphql',
+    UsingTestServer(`${__dirname}/app.js`, async ({ apolloClients }) => {
+      const res = apolloClients['/graphql'].query({
+        query: '{ hello }',
+      });
+
+      await expect(res).resolves.toMatchObject({
+        data: {
+          hello: 'Awesome!',
+        },
+      });
+    }),
+  );
+
+});
+```

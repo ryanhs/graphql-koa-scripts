@@ -53,6 +53,13 @@ module.exports.TestServer = bluebird.method(async (App) => {
   };
 });
 
+// test, a wrapper bluebird.using, wrap quit, for easier testing
+module.exports.UsingTestServer = (App, fn) => () =>
+  bluebird.using(
+    module.exports.TestServer(App).disposer((d) => d.quit()),
+    fn,
+  );
+
 // create a server, pass a string file, or App (object or function)
 module.exports.Server = bluebird.method(async (App) => {
   const app = await loadAppFile(App);
@@ -65,3 +72,10 @@ module.exports.Server = bluebird.method(async (App) => {
 
   return { ...dependencies };
 });
+
+// real server need Using too? oke
+module.exports.UsingServer = (App, fn) => () =>
+  bluebird.using(
+    module.exports.Server(App).disposer((d) => d.quit()),
+    fn,
+  );
