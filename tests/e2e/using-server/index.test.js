@@ -1,7 +1,7 @@
 const superagent = require('superagent');
 const { UsingServer } = require('../../../src');
 
-describe('UsingServer', () => {
+describe('UsingServer(App, fn)', () => {
   const App = {
     configure: () => ({ PORT: 13004 }),
 

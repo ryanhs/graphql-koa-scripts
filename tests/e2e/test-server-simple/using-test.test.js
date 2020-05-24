@@ -1,6 +1,6 @@
 const { UsingTestServer } = require('../../../src');
 
-describe('using TestServer(App).test(fn)', () => {
+describe('using UsingTestServer(App, fn)', () => {
   it(
     'auto quit',
     UsingTestServer(`${__dirname}/app.js`, async () => {

@@ -77,7 +77,7 @@ describe('test server ok', () => {
 ```javascript
 const { UsingTestServer } = require('graphql-koa-scripts');
 
-describe('using TestServer(App).test(fn)', () => {
+describe('using UsingTestServer(App, fn)', () => {
 
   it(
     'try /qs',
