@@ -1,6 +1,4 @@
-module.exports = async function listenHttp({
-  koa, hook, logger, PORT,
-}) {
+module.exports = async function listenHttp({ koa, hook, logger, PORT }) {
   // listen
   const port = PORT || process.env.PORT || 4001;
 
@@ -10,10 +8,15 @@ module.exports = async function listenHttp({
     logger.info(`🚀 HTTP ready on port: ${port}`, { service: 'http' });
     hook.emit('http:listen:after', { httpServer, port });
   });
-  hook.on('quit', () => new Promise((cb) => {
-    logger.info('stopping http server...', { service: 'http' });
-    httpServer.close(cb);
-  }));
+
+  hook.on(
+    'quit',
+    () =>
+      new Promise((cb) => {
+        logger.info('stopping http server...', { service: 'http' });
+        httpServer.close(cb);
+      }),
+  );
 
   return { httpServer };
 };

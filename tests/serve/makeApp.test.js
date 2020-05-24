@@ -5,7 +5,6 @@ const Loader = require('../../src/loaders');
 const makeApp = require('../../src/serve/makeApp');
 
 describe('make the App', () => {
-
   it('empty app {}', async () => {
     const dependencies = await Loader();
 
@@ -131,5 +130,4 @@ describe('make the App', () => {
     hook.emit('test1');
     expect(mock).toHaveBeenCalledTimes(2);
   });
-
 });

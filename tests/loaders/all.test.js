@@ -2,17 +2,9 @@ const Router = require('@koa/router');
 const Loader = require('../../src/loaders');
 
 describe('it load everything needed', () => {
-
   it('initialize', async () => {
-
     // initialize
-    const {
-      koa, koaRouter,
-      hook,
-      graphqlPubSub,
-      bluebird,
-      graphqlHandler,
-    } = await Loader();
+    const { koa, koaRouter, hook, graphqlPubSub, bluebird, graphqlHandler } = await Loader();
 
     // check koa
     expect(koa.toJSON()).toMatchObject({
@@ -36,5 +28,4 @@ describe('it load everything needed', () => {
     // check graphqlHandler
     expect(graphqlHandler).toBeInstanceOf(Function);
   });
-
 });

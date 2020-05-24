@@ -10,49 +10,50 @@ const loggerLoader = require('./logger');
 // require handlers wrapper graphql
 const GraphqlHandler = require('../handlers/graphql.js');
 
-
 // exports everything, add all dependencies, load in order
-module.exports = () => bluebird.resolve({})
+module.exports = () =>
+  bluebird
+    .resolve({})
 
-  // basic
-  .then(async (dependencies) => ({
-    ...dependencies,
-    hook: new HookEmitter(),
-    bluebird,
-  }))
+    // basic
+    .then(async (dependencies) => ({
+      ...dependencies,
+      hook: new HookEmitter(),
+      bluebird,
+    }))
 
-  // Hook must be global
-  .tap((dependencies) => {
-    global.Hook = dependencies.hook;
-  })
+    // Hook must be global
+    .tap((dependencies) => {
+      global.Hook = dependencies.hook;
+    })
 
-  // logger
-  .then(async (dependencies) => ({
-    ...dependencies,
-    logger: loggerLoader({
-      isProduction: process.env.NODE_ENV === 'production',
-    }),
-  }))
+    // logger
+    .then(async (dependencies) => ({
+      ...dependencies,
+      logger: loggerLoader({
+        isProduction: process.env.NODE_ENV === 'production',
+      }),
+    }))
 
-  // koa
-  .then(async (dependencies) => ({
-    ...dependencies,
-    ...(koaLoader()),
-  }))
+    // koa
+    .then(async (dependencies) => ({
+      ...dependencies,
+      ...koaLoader(),
+    }))
 
-  // Graphql PubSub
-  .then(async (dependencies) => ({
-    ...dependencies,
-    graphqlPubSub: new GraphqlPubSub(),
-  }))
+    // Graphql PubSub
+    .then(async (dependencies) => ({
+      ...dependencies,
+      graphqlPubSub: new GraphqlPubSub(),
+    }))
 
-  // Graphql PubSub must be global
-  .tap((dependencies) => {
-    global.graphqlPubSub = dependencies.graphqlPubSub;
-  })
+    // Graphql PubSub must be global
+    .tap((dependencies) => {
+      global.graphqlPubSub = dependencies.graphqlPubSub;
+    })
 
-  // Graphql handler
-  .then(async (dependencies) => ({
-    ...dependencies,
-    graphqlHandler: GraphqlHandler(dependencies),
-  }));
+    // Graphql handler
+    .then(async (dependencies) => ({
+      ...dependencies,
+      graphqlHandler: GraphqlHandler(dependencies),
+    }));

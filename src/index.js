@@ -47,7 +47,9 @@ module.exports.TestServer = bluebird.method(async (App) => {
   const supertest = Supertest(dependencies.koa.callback());
 
   return {
-    ...dependencies, apolloClients, supertest,
+    ...dependencies,
+    apolloClients,
+    supertest,
   };
 });
 

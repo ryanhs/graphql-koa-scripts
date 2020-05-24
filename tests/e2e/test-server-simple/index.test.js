@@ -1,7 +1,6 @@
 const { TestServer } = require('../../../src');
 
 describe('can create test server ', () => {
-
   it('boot up ok', async () => {
     const { quit } = await TestServer(`${__dirname}/app.js`);
     expect(1).toBe(1); // just boot up test
@@ -30,11 +29,9 @@ describe('can create test server ', () => {
     const response = supertest.get('/qs?foo=bar');
     await expect(response).resolves.not.toThrow();
 
-
     const { body } = await response;
     expect(body).toMatchObject({ foo: 'bar' });
 
     return quit();
   });
-
 });

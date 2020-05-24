@@ -1,11 +1,10 @@
 const { TestServer } = require('../../../src');
 
 describe('check health not found ', () => {
-
   it('no /healthcheck', async () => {
-    const App = ({
+    const App = {
       configure: () => ({ DISABLE_HEALTHCHECK: true }),
-    });
+    };
 
     const { supertest, quit } = await TestServer(App);
 
@@ -16,9 +15,9 @@ describe('check health not found ', () => {
   });
 
   it('no /ping & /api/ping', async () => {
-    const App = ({
+    const App = {
       configure: () => ({ DISABLE_HEALTHCHECK: true }),
-    });
+    };
 
     const { supertest, quit } = await TestServer(App);
 
@@ -36,12 +35,10 @@ describe('check health not found ', () => {
   it('no emit hook healthcheck:added', async () => {
     const mock = jest.fn();
 
-    const App = ({
+    const App = {
       configure: () => ({ DISABLE_HEALTHCHECK: true }),
-      hooks: [
-        { on: 'healthcheck:added', fn: mock },
-      ],
-    });
+      hooks: [{ on: 'healthcheck:added', fn: mock }],
+    };
 
     const { quit } = await TestServer(App);
 
@@ -49,5 +46,4 @@ describe('check health not found ', () => {
 
     return quit();
   });
-
 });

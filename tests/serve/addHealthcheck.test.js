@@ -6,14 +6,10 @@ const { PubSub: GraphqlPubSub } = require('graphql-subscriptions');
 const KoaApp = require('../../src/loaders/koa');
 const addHealthcheck = require('../../src/serve/addHealthcheck');
 
-
 describe('it add healthcheck functions ', () => {
-
   const graphqlPubSub = new GraphqlPubSub();
 
-
   it('add healthcheck', async () => {
-
     // initialize
     const hook = new HookEmitter();
     const { koa, koaRouter } = await KoaApp();
@@ -32,7 +28,6 @@ describe('it add healthcheck functions ', () => {
     // check healthcheck publish
     return new Promise((resolve) => {
       graphqlPubSub.subscribe('all', (payload) => {
-
         expect(payload).toMatchObject({
           healthcheck: expect.any(String),
         });
@@ -46,7 +41,5 @@ describe('it add healthcheck functions ', () => {
         resolve();
       });
     });
-
   });
-
 });

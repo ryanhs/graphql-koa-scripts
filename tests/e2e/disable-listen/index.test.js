@@ -2,20 +2,17 @@ const superagent = require('superagent');
 const { Server } = require('../../../src');
 
 describe('check disable listen ', () => {
-
   it('no listen', async () => {
-    const App = ({
+    const App = {
       configure: () => ({ DISABLE_LISTEN: true, PORT: 13003 }),
-    });
+    };
 
     const { quit } = await Server(App);
 
-    const res = superagent
-      .get('http://localhost:13003/ping')
-      .timeout({
-        response: 2000, // Wait 2 seconds for the server to start sending,
-        deadline: 2000,
-      });
+    const res = superagent.get('http://localhost:13003/ping').timeout({
+      response: 2000, // Wait 2 seconds for the server to start sending,
+      deadline: 2000,
+    });
 
     await expect(res).rejects.toThrow(/ECONNREFUSED/g);
 
@@ -25,13 +22,13 @@ describe('check disable listen ', () => {
   it('no emit hook http:listen:*', async () => {
     const mock = jest.fn();
 
-    const App = ({
+    const App = {
       configure: () => ({ DISABLE_LISTEN: true, PORT: 13003 }),
       hooks: [
         { on: 'http:listen:before', fn: mock },
         { on: 'http:listen:after', fn: mock },
       ],
-    });
+    };
 
     const { quit } = await Server(App);
 
@@ -39,5 +36,4 @@ describe('check disable listen ', () => {
 
     return quit();
   });
-
 });

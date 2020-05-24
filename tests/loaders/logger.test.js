@@ -1,9 +1,7 @@
 const Logger = require('../../src/loaders/logger');
 
 describe('it can create new bunyan instance', () => {
-
   it('initialize default: isProduction = true', () => {
-
     // initialize
     const logger = Logger({});
 
@@ -20,5 +18,4 @@ describe('it can create new bunyan instance', () => {
     const logger = Logger({ isProduction: true });
     expect(logger.src).toBe(false);
   });
-
 });

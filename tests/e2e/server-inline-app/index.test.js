@@ -2,8 +2,7 @@ const superagent = require('superagent');
 const { Server } = require('../../../src');
 
 describe('can create a server inline', () => {
-
-  const App = ({
+  const App = {
     configure: () => ({ PORT: 13001 }),
 
     router(_, { graphqlHandler }) {
@@ -21,19 +20,14 @@ describe('can create a server inline', () => {
         endpointUrl: '/graphql',
       });
     },
-  });
-
+  };
 
   it('try graphql', async () => {
-
     const { quit } = await Server(App);
 
-    const res = superagent
-      .post('http://localhost:13001/graphql')
-      .type('json')
-      .send({
-        query: '{ hello }',
-      });
+    const res = superagent.post('http://localhost:13001/graphql').type('json').send({
+      query: '{ hello }',
+    });
 
     await expect(res).resolves.toMatchObject({
       body: {
@@ -45,5 +39,4 @@ describe('can create a server inline', () => {
 
     return quit();
   });
-
 });

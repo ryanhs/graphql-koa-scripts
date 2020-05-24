@@ -12,9 +12,10 @@ module.exports = (e) => {
   }
 
   // schema invalid
-  if (message.match(/Expected type/g) !== null
-   || message.match(/String cannot represent a non string value/g)
-   || message.endsWith('is required, but it was not provided.')
+  if (
+    message.match(/Expected type/g) !== null ||
+    message.match(/String cannot represent a non string value/g) ||
+    message.endsWith('is required, but it was not provided.')
   ) {
     code = 'E_INVALID_ARGINS';
   }
@@ -31,9 +32,20 @@ module.exports = (e) => {
   }
 
   // tailor according env
-  return process.env.NODE_ENV === 'development' ? ({
-    locations, path, message, code, httpStatusCode, stack,
-  }) : ({
-    locations, path, message, code, httpStatusCode,
-  });
+  return process.env.NODE_ENV === 'development'
+    ? {
+        locations,
+        path,
+        message,
+        code,
+        httpStatusCode,
+        stack,
+      }
+    : {
+        locations,
+        path,
+        message,
+        code,
+        httpStatusCode,
+      };
 };

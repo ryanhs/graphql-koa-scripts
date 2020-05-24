@@ -2,9 +2,7 @@ const HookEmitter = require('hook-emitter').default;
 const addQuit = require('../../src/serve/addQuit');
 
 describe('emit quit', () => {
-
   it('just emit quit hook', async () => {
-
     const fn1 = jest.fn();
     const fn2 = jest.fn();
     const fn3 = jest.fn();
@@ -26,5 +24,4 @@ describe('emit quit', () => {
     expect(fn2).toHaveBeenCalledTimes(1);
     expect(fn3).toHaveBeenCalledTimes(1);
   });
-
 });

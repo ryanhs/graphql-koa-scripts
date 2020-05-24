@@ -2,7 +2,6 @@ const flaverr = require('flaverr');
 const formatError = require('../../src/handlers/graphqlFormatError');
 
 describe('format error, including flaverr powered', () => {
-
   it('just throw without message', () => {
     const formatted = formatError(new Error());
 
@@ -120,11 +119,9 @@ describe('format error, including flaverr powered', () => {
     expect(formatted.stack).toEqual(expect.arrayContaining(['first']));
     expect(formatted.stack).toEqual(expect.arrayContaining(['second']));
   });
-
 });
 
 describe('process.env.NODE_ENV aware', () => {
-
   it('should NODE_ENV=development should contain stack', () => {
     process.env.NODE_ENV = 'development';
 
@@ -135,7 +132,6 @@ describe('process.env.NODE_ENV aware', () => {
     });
   });
 
-
   it('should NODE_ENV=production should NOT contain stack', () => {
     process.env.NODE_ENV = 'production';
 
@@ -143,11 +139,9 @@ describe('process.env.NODE_ENV aware', () => {
 
     expect(formatted.stack).toBeUndefined();
   });
-
 });
 
 describe('schema invalid aware', () => {
-
   it('"String cannot represent a non string value: ..." to be E_INVALID_ARGINS-400', () => {
     process.env.NODE_ENV = 'development';
 
@@ -180,6 +174,4 @@ describe('schema invalid aware', () => {
       httpStatusCode: 400,
     });
   });
-
-
 });

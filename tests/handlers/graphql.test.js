@@ -8,12 +8,10 @@ const HookEmitter = require('hook-emitter').default;
 const koaLoader = require('../../src/loaders/koa');
 const loggerLoader = require('../../src/loaders/logger');
 
-
 // method to test
 const GraphqlHandler = require('../../src/handlers/graphql');
 
 describe('graphqlHandler is ust apollo server maker', () => {
-
   let d = {};
 
   beforeEach(async () => {
@@ -22,27 +20,31 @@ describe('graphqlHandler is ust apollo server maker', () => {
     const logger = loggerLoader({ isProduction: false });
 
     d = {
-      hook, koa, koaRouter, logger,
+      hook,
+      koa,
+      koaRouter,
+      logger,
     };
   });
-
 
   it('can create successfully', async () => {
     const handler = GraphqlHandler(d);
 
-    const graphqlClient = createTestClient(await handler({
-      resolvers: {
-        Query: {
-          hello: () => 'Awesome!',
+    const graphqlClient = createTestClient(
+      await handler({
+        resolvers: {
+          Query: {
+            hello: () => 'Awesome!',
+          },
         },
-      },
-      typeDefs: `
+        typeDefs: `
         type Query {
           hello: String!
         }
       `,
-      endpointUrl: '/graphql/dadadada',
-    }));
+        endpointUrl: '/graphql/dadadada',
+      }),
+    );
 
     // test
     const req = graphqlClient.query({ query: '{ hello }' });
@@ -117,8 +119,7 @@ describe('graphqlHandler is ust apollo server maker', () => {
       typeDefs,
     });
 
-    const response = await request(http.createServer(d.koa.callback()))
-      .get('/graphql/schema');
+    const response = await request(http.createServer(d.koa.callback())).get('/graphql/schema');
 
     expect(response.statusCode).toBe(404);
   });
@@ -158,6 +159,4 @@ describe('graphqlHandler is ust apollo server maker', () => {
     d.hook.emit('http:listen:after', { httpServer });
     expect(httpServer.on).toBeCalled();
   });
-
-
 });

@@ -1,12 +1,11 @@
-
 module.exports = async (d, App) => {
   let dependencies = d;
 
   // if app is function, and need dependencies, then give it
-  const app = typeof App === 'function'
-    ? await Promise.resolve(App(dependencies)) // async enabled
-    : App;
-
+  const app =
+    typeof App === 'function'
+      ? await Promise.resolve(App(dependencies)) // async enabled
+      : App;
 
   // App configure? combine dependencies then.
   if (typeof app.configure === 'function') {
@@ -22,12 +21,13 @@ module.exports = async (d, App) => {
   // register hooks
   if (Array.isArray(app.hooks)) {
     // fn or listener is ok
-    app.hooks.forEach(({
-      on, priority = 0, fn, listener,
-    }) => {
+    app.hooks.forEach(({ on, priority = 0, fn, listener }) => {
       dependencies.hook.on(on, priority, fn || listener);
       dependencies.logger.trace({
-        service: 'hook', registered: on, by: 'App', priority,
+        service: 'hook',
+        registered: on,
+        by: 'App',
+        priority,
       });
     });
   }

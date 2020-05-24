@@ -5,7 +5,9 @@
         "node": true
     },
     "extends": [
-        "airbnb-base"
+        "airbnb-base",
+        "plugin:jest/recommended",
+        "plugin:prettier/recommended"
     ],
     "globals": {
         "Atomics": "readonly",
@@ -32,12 +34,8 @@
       "no-unused-vars": "warn",
       "no-param-reassign": ["error", { "props": false }],
       "radix": "warn",
-      "max-len": [ "error", 160 ]
+      "max-len": [ "error", 100 ],
+      "prettier/prettier": ["error"]
     },
-    "overrides": [
-      {
-        "files": ["**/*.test.js"],
-        "extends": ["plugin:jest/recommended"]
-      }
-    ]
+    "overrides": []
 }
