@@ -30,7 +30,7 @@ describe('check disable listen ', () => {
       hooks: [
         { on: 'http:listen:before', fn: mock },
         { on: 'http:listen:after', fn: mock },
-      ]
+      ],
     });
 
     const { quit } = await Server(App);

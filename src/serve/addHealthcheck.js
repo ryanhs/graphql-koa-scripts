@@ -15,6 +15,7 @@ module.exports = async ({ koaRouter, graphqlPubSub, hook }) => {
   }, 3000);
 
   hook.emit('healthcheck:added', { interval });
+  hook.on('quit', () => clearInterval(interval));
 
   return { interval };
 };

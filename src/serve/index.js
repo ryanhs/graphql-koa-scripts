@@ -1,9 +1,13 @@
 const makeApp = require('./makeApp');
 const addHealthcheck = require('./addHealthcheck');
+const addQuit = require('./addQuit');
 const listenHttp = require('./listenHttp');
 
 // need dependencies from loader
 module.exports = (d, App) => d.bluebird.resolve(d)
+
+  // listen for quit()
+  .then(addQuit)
 
   // make App
   .then((dependencies) => makeApp(dependencies, App))

@@ -33,33 +33,21 @@ module.exports.TestServer = bluebird.method(async (App) => {
   // load
   let dependencies = await module.exports.loader();
 
-  // mark test
-  dependencies.DISABLE_LISTEN = true;
-
   // hold all apollo server to make testing easier
   const apolloClients = {};
   dependencies.hook.on('http:graphqlHandler:added', ({ server, options: { endpointUrl } }) => {
     apolloClients[endpointUrl] = createTestClient(server);
   });
 
-  // trap healthcheck timer
-  let healthcheckTimer;
-  dependencies.hook.on('healthcheck:added', ({ interval }) => {
-    healthcheckTimer = interval;
-  });
-
   // serve
+  dependencies.DISABLE_LISTEN = true;
   dependencies = await module.exports.serve(dependencies, app);
 
-  // prepare quit function
-  const quit = async () => {
-    clearInterval(healthcheckTimer);
-  };
-
+  // supertest wrap
   const supertest = Supertest(dependencies.koa.callback());
 
   return {
-    ...dependencies, apolloClients, supertest, quit,
+    ...dependencies, apolloClients, supertest,
   };
 });
 
@@ -70,26 +58,8 @@ module.exports.Server = bluebird.method(async (App) => {
   // load
   let dependencies = await module.exports.loader();
 
-  // trap healthcheck timer
-  let healthcheckTimer;
-  dependencies.hook.on('healthcheck:added', ({ interval }) => {
-    healthcheckTimer = interval;
-  });
-
-  // trap httpServer
-  let httpServer = { close: (cb) => cb() };
-  dependencies.hook.on('http:listen:after', ({ httpServer: tmpHttpServer }) => {
-    httpServer = tmpHttpServer;
-  });
-
   // serve
   dependencies = await module.exports.serve(dependencies, app);
 
-  // prepare quit function
-  const quit = async () => {
-    clearInterval(healthcheckTimer);
-    await (new Promise((resolve) => httpServer.close(resolve)));
-  };
-
-  return { ...dependencies, quit };
+  return { ...dependencies };
 });
