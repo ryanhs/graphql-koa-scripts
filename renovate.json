@@ -1,1 +1,9 @@
-{ "extends": [ "config:base", ":automergeMinor" ] }
+{
+  "extends": ["config:base", ":automergeMinor"],
+  "packageRules": [
+    {
+      "depTypeList": ["engines"],
+      "automerge": false
+    }
+  ]
+}
