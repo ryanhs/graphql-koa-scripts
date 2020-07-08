@@ -16,11 +16,11 @@ module.exports = async ({ koaRouter, graphqlPubSub, hook }) => {
     const status = await healthcheck.getStatus();
     /* eslint-disable */
     switch (status.status) {
-        case health.State.STARTING:    ctx.status = StateCode.DOWN; break;
-        case health.State.UP:          ctx.status = StateCode.OK;   break;
-        case health.State.DOWN:        ctx.status = StateCode.DOWN; break;
-        case health.State.STOPPING:    ctx.status = StateCode.DOWN; break;
-        case health.State.STOPPED:     ctx.status = StateCode.DOWN; break;
+      case health.State.STARTING:    ctx.status = StateCode.DOWN; break;
+      case health.State.UP:          ctx.status = StateCode.OK;   break;
+      case health.State.DOWN:        ctx.status = StateCode.DOWN; break;
+      case health.State.STOPPING:    ctx.status = StateCode.DOWN; break;
+      case health.State.STOPPED:     ctx.status = StateCode.DOWN; break;
     }
     /* eslint-enable */
     ctx.body = status;
@@ -30,11 +30,11 @@ module.exports = async ({ koaRouter, graphqlPubSub, hook }) => {
     const status = await healthcheck.getLivenessStatus();
     /* eslint-disable */
     switch (status.status) {
-        case health.State.STARTING:    ctx.status = StateCode.OK;   break;
-        case health.State.UP:          ctx.status = StateCode.OK;   break;
-        case health.State.DOWN:        ctx.status = StateCode.DOWN; break;
-        case health.State.STOPPING:    ctx.status = StateCode.DOWN; break;
-        case health.State.STOPPED:     ctx.status = StateCode.DOWN; break;
+      case health.State.STARTING:    ctx.status = StateCode.OK;   break;
+      case health.State.UP:          ctx.status = StateCode.OK;   break;
+      case health.State.DOWN:        ctx.status = StateCode.DOWN; break;
+      case health.State.STOPPING:    ctx.status = StateCode.DOWN; break;
+      case health.State.STOPPED:     ctx.status = StateCode.DOWN; break;
     }
     /* eslint-enable */
     ctx.body = status;
@@ -44,11 +44,11 @@ module.exports = async ({ koaRouter, graphqlPubSub, hook }) => {
     const status = await healthcheck.getReadinessStatus();
     /* eslint-disable */
     switch (status.status) {
-        case health.State.STARTING:    ctx.status = StateCode.DOWN;   break;
-        case health.State.UP:          ctx.status = StateCode.OK;     break;
-        case health.State.DOWN:        ctx.status = StateCode.DOWN;   break;
-        case health.State.STOPPING:    ctx.status = StateCode.DOWN;   break;
-        case health.State.STOPPED:     ctx.status = StateCode.DOWN;   break;
+      case health.State.STARTING:    ctx.status = StateCode.DOWN;   break;
+      case health.State.UP:          ctx.status = StateCode.OK;     break;
+      case health.State.DOWN:        ctx.status = StateCode.DOWN;   break;
+      case health.State.STOPPING:    ctx.status = StateCode.DOWN;   break;
+      case health.State.STOPPED:     ctx.status = StateCode.DOWN;   break;
     }
     /* eslint-enable */
     ctx.body = status;
