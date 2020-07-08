@@ -22,20 +22,20 @@ describe('UsingServer(App, fn)', () => {
     },
   };
 
-  it('try graphql', UsingServer(App, async () => {
+  it(
+    'try graphql',
+    UsingServer(App, async () => {
+      const res = superagent.post('http://localhost:13004/graphql').type('json').send({
+        query: '{ hello }',
+      });
 
-    const res = superagent.post('http://localhost:13004/graphql').type('json').send({
-      query: '{ hello }',
-    });
-
-    await expect(res).resolves.toMatchObject({
-      body: {
-        data: {
-          hello: 'Awesome!',
+      await expect(res).resolves.toMatchObject({
+        body: {
+          data: {
+            hello: 'Awesome!',
+          },
         },
-      },
-    });
-
-  }));
-
+      });
+    }),
+  );
 });
