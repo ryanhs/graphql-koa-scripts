@@ -3,7 +3,7 @@ const { UsingServer } = require('../../../src');
 
 describe('UsingServer(App, fn)', () => {
   const App = {
-    configure: () => ({ PORT: 13004 }),
+    configure: () => ({ PORT: 13005 }),
 
     router(_, { graphqlHandler }) {
       graphqlHandler({
@@ -25,7 +25,7 @@ describe('UsingServer(App, fn)', () => {
   it(
     'try graphql',
     UsingServer(App, async () => {
-      const res = superagent.post('http://localhost:13004/graphql').type('json').send({
+      const res = superagent.post('http://localhost:13005/graphql').type('json').send({
         query: '{ hello }',
       });
 
