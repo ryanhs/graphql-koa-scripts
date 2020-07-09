@@ -23,7 +23,7 @@ describe('it add healthcheck functions ', () => {
 
     // inject
     const { interval } = await addHealthcheck({ koaRouter, graphqlPubSub, hook });
-    expect(koaRouter.stack).toHaveLength(3);
+    expect(koaRouter.stack.length).toBeGreaterThanOrEqual(3);
 
     // check healthcheck publish
     return new Promise((resolve) => {

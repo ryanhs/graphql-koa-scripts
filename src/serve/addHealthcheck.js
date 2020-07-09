@@ -11,6 +11,7 @@ module.exports = async ({ koaRouter, graphqlPubSub, hook }) => {
   // healthcheck setup
   const healthcheck = new health.HealthChecker();
   await hook.emit('healthcheck:setup', { health, healthcheck });
+  hook.on('quit', () => healthcheck.onShutdownRequest());
 
   async function healthHandler(ctx) {
     const status = await healthcheck.getStatus();
