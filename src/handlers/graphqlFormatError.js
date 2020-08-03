@@ -13,6 +13,7 @@ module.exports = (e) => {
 
   // schema invalid
   if (
+    message.match(/invalid value/g) !== null ||
     message.match(/Expected type/g) !== null ||
     message.match(/String cannot represent a non string value/g) ||
     message.endsWith('is required, but it was not provided.') ||
