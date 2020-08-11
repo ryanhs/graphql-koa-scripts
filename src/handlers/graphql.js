@@ -25,6 +25,7 @@ module.exports = ({ koaRouter, hook, logger }) => (options) => {
   // setup koa router /graphql/schema for dev environment, easier to read
   if (process.env.NODE_ENV === 'development') {
     koaRouter.all(`${endpointUrl}/schema`, (ctx) => {
+      ctx.type = 'text/plain';
       ctx.body = typeDefs;
     });
   }
