@@ -18,6 +18,9 @@ module.exports = (e) => {
     message.match(/was not provided/g) !== null ||
     message.match(/Expected type/g) !== null ||
     message.match(/Expected value/g) !== null ||
+    message.match(/Value is not a valid/g) !== null ||
+    message.match(/cannot represent/g) !== null ||
+    message.match(/Syntax Error/g) !== null ||
     message.match(/String cannot represent a non string value/g) ||
     message.endsWith('is required, but it was not provided.') ||
     message.startsWith('Argument passed in must be')
