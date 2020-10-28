@@ -23,7 +23,7 @@
     "meow": "^7.0.1",
     "nodemon": "^2.0.4",
     "superagent": "^5.2.2",
-    "supertest": "^4.0.2"
+    "supertest": "^6.0.0"
   },
   "devDependencies": {
     "coveralls": "3.1.0",
