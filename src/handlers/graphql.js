@@ -1,4 +1,5 @@
 const { ApolloServer } = require('apollo-server-koa');
+const { graphql } = require('graphql');
 
 const formatError = require('./graphqlFormatError');
 
@@ -21,6 +22,7 @@ module.exports = ({ koaRouter, hook, logger }) => (options) => {
           },
     ...options,
   });
+  server.graphql = graphql;
 
   // setup koa router /graphql/schema for dev environment, easier to read
   if (process.env.NODE_ENV === 'development') {
