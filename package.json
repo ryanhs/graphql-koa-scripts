@@ -7,7 +7,7 @@
   "license": "MIT",
   "dependencies": {
     "@cloudnative/health": "^2.1.2",
-    "@koa/router": "^9.0.0",
+    "@koa/router": "^10.0.0",
     "apollo-server-koa": "^2.13.1",
     "apollo-server-testing": "^2.13.1",
     "bluebird": "^3.7.2",
