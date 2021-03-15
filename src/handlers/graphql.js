@@ -33,11 +33,20 @@ module.exports = ({ koaRouter, hook, logger }) => (options) => {
   }
 
   // setup graphql api based on endpointUrl
+  const graphqlServerHandler = server.getMiddleware({
+    path: endpointUrl,
+  });
+
   koaRouter.all(
     endpointUrl,
-    server.getMiddleware({
-      path: endpointUrl,
-    }),
+    async (ctx, next) => {
+      await graphqlServerHandler(ctx, next);
+
+      // force 200 for bad request
+      if (ctx.status === 400) {
+        ctx.status = 200;
+      }
+    },
   );
 
   // notify

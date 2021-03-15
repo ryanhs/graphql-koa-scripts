@@ -39,6 +39,11 @@ module.exports = (e) => {
     httpStatusCode = 400;
   }
 
+  const errorCode429 = ['E_TOO_MANY_REQUESTS'];
+  if (errorCode429.indexOf(code) !== -1) {
+    httpStatusCode = 429;
+  }
+
   // tailor according env
   return process.env.NODE_ENV === 'development'
     ? {
