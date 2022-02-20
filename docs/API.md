@@ -177,6 +177,15 @@ graphqlHandler({
   },
 
   endpointUrl: '/graphql',
+
+  // need authentication? we cover it now.
+  middlewares: [
+    (ctx, next) => {
+      if (ctx.request.headers.authorization === 'Bearer OK') return next();
+      return ctx.throw(401);
+    }
+  ],
+
 });
 ```
 

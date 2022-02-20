@@ -4,7 +4,7 @@ const { graphql } = require('graphql');
 const formatError = require('./graphqlFormatError');
 
 module.exports = ({ koaRouter, hook, logger }) => (options) => {
-  const { resolvers, typeDefs, endpointUrl = '/graphql' } = options;
+  const { resolvers, typeDefs, endpointUrl = '/graphql', middlewares = [] } = options;
 
   // setup server
   const server = new ApolloServer({
@@ -37,17 +37,14 @@ module.exports = ({ koaRouter, hook, logger }) => (options) => {
     path: endpointUrl,
   });
 
-  koaRouter.all(
-    endpointUrl,
-    async (ctx, next) => {
-      await graphqlServerHandler(ctx, next);
+  koaRouter.all(endpointUrl, ...middlewares, async (ctx, next) => {
+    await graphqlServerHandler(ctx, next);
 
-      // force 200 for bad request
-      if (ctx.status === 400) {
-        ctx.status = 200;
-      }
-    },
-  );
+    // force 200 for bad request
+    if (ctx.status === 400) {
+      ctx.status = 200;
+    }
+  });
 
   // notify
   logger.info('🚀 Graphql attached!', {

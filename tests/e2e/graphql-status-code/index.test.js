@@ -29,14 +29,15 @@ describe('can create a server inline', () => {
 
     const res = superagent.post(`http://localhost:${PORT}/graphql`).type('json').send({
       query: '{ hello() }',
-    }).catch(e => console.log(e.status, e.toString()));
+    });
+    // .catch((e) => console.log(e.status, e.toString()));
 
     await expect(res).resolves.toMatchObject({
       body: {
         errors: expect.arrayContaining([
           expect.objectContaining({
-            httpStatusCode: 400
-          })
+            httpStatusCode: 400,
+          }),
         ]),
       },
     });
