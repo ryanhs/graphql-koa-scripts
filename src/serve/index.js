@@ -18,4 +18,7 @@ module.exports = (d, App) =>
     .tap((dependencies) => dependencies.DISABLE_HEALTHCHECK || addHealthcheck(dependencies))
 
     // listenHttp
-    .tap((dependencies) => dependencies.DISABLE_LISTEN || listenHttp(dependencies));
+    .tap((dependencies) => dependencies.DISABLE_LISTEN || listenHttp(dependencies))
+
+    // added after served / listen all
+    .tap((dependencies) => dependencies.hook.emit('serve:ready'));
