@@ -61,6 +61,40 @@ describe('graphqlHandler is ust apollo server maker', () => {
     });
   });
 
+  it('test mutation', async () => {
+    GraphqlHandler(d)({
+      resolvers: {
+        Query: {
+          hello: () => 'Awesome!',
+        },
+        Mutation: {
+          helloMutate: () => 'Awesome!',
+        },
+      },
+      typeDefs: `
+      type Query {
+        hello: String!
+      }
+      type Mutation {
+        helloMutate: String!
+      }
+    `,
+      endpointUrl: '/graphql/dadadada',
+    });
+
+    let graphqlClient;
+    d.hook.on('http:graphqlHandler:added', (tmp) => (graphqlClient = tmp.apolloClient));
+    await d.hook.emit('makeApp:after', d);
+
+    // test
+    const req = graphqlClient.mutate({ mutation: 'mutation { helloMutate }' });
+    await expect(req).resolves.toMatchObject({
+      data: {
+        helloMutate: 'Awesome!',
+      },
+    });
+  });
+
   it('can create successfully, default endpointUrl', async () => {
     GraphqlHandler(d)({
       resolvers: {
@@ -133,68 +167,4 @@ describe('graphqlHandler is ust apollo server maker', () => {
 
     expect(response.statusCode).toBe(404);
   });
-
-  /*
-  // https://www.apollographql.com/docs/apollo-server/data/subscriptions/#the-pubsub-class
-  it('can create Subscription', async () => {
-    d.DISABLE_LISTEN = false;
-    d.PORT = (await getFreePort(20000))[0];
-    console.log('free', d.PORT)
-
-    const pushNewName = async () => {
-      const newName = faker.name.findName();
-      // console.log(newName)
-      return d.graphqlPubSub.publish('NEW_NAME', { newName });
-    };
-    const publisherIval = setInterval(pushNewName, 100);
-
-    GraphqlHandler(d)({
-      resolvers: {
-        Query: {
-          hello: () => 'Awesome!',
-        },
-        Subscription: {
-          newName: {
-            subscribe: () => pubsub.asyncIterator(['NEW_NAME']),
-          },
-        },
-      },
-      typeDefs: `
-      type Query {
-        hello: String!
-      }
-      type Subscription {
-        newName: String
-      }
-    `,
-      endpointUrl: '/graphql',
-    });
-
-    // run server
-    // await new Promise(resolve => d.hook.on('http:listen:before', resolve));
-
-    // create ws client
-    const wsClient = graphqlWS.createClient({
-      url: `ws://localhost:${d.PORT}/graphql`,
-    });
-
-
-
-
-
-    console.log('ws client!')
-    await pushNewName();
-
-    const NEW_NAME_SUBSCRIPTION = `
-      subscription OnNewName{
-        newName
-      }
-    `;
-
-
-
-    await bluebird.delay(1000);
-    clearInterval(publisherIval);
-  });
-*/
 });

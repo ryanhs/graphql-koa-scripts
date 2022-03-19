@@ -81,8 +81,12 @@ module.exports =
       // apollo-server-testing is DEPRECATED, so we simulate graphqlClient
       // > https://www.npmjs.com/package/apollo-server-testing
       const apolloClient = {
-        query: (...args) => server.executeOperation(...args),
-        mutate: (...args) => server.executeOperation(...args),
+        query: (args) => server.executeOperation(args),
+        mutate: (args) => {
+          // backcompatibility with client.mutate({ mutation: ... })
+          const { mutation, ...argsRest } = args;
+          return server.executeOperation({ query: mutation, ...argsRest });
+        },
       };
 
       // notify
