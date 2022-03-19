@@ -88,14 +88,14 @@ describe('can create a server inline', () => {
     });
 
     // let subscriber connect
-    await bluebird.delay(14);
+    await bluebird.delay(50);
 
     // test x times
     /* eslint-disable no-await-in-loop */
     for (let i = 0; i < xTimes; i += 1) {
       await pushNewName();
     }
-    await bluebird.delay(14);
+    await bluebird.delay(50);
     /* eslint-enable no-await-in-loop */
 
     await unsubscribe();
@@ -133,11 +133,11 @@ describe('can create a server inline', () => {
       });
 
       // let subscriber connect
-      await bluebird.delay(14);
+      await bluebird.delay(50);
 
       // push a name
       await pushNewName(newName);
-      await bluebird.delay(14);
+      await bluebird.delay(50);
 
       // unsubscribe
       await unsubscribe();

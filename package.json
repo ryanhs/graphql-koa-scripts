@@ -22,8 +22,8 @@
     "koa": "^2.11.0",
     "meow": "^10.1.2",
     "nodemon": "^2.0.4",
-    "superagent": "^5.2.2",
-    "supertest": "^4.0.2",
+    "superagent": "^7.1.1",
+    "supertest": "^6.2.2",
     "ws": "^8.5.0"
   },
   "devDependencies": {
@@ -43,12 +43,11 @@
     "prettier": "2.6.0"
   },
   "scripts": {
-    "start": "npm run test:watch",
     "dev": "NODE_ENV=development nodemon src/cli/bin.js start",
-    "debug": "NODE_ENV=development node ./debug.js",
     "lint": "eslint -c .eslintrc.js src/ tests/ --fix --max-warnings=0 --report-unused-disable-directives && echo '✔  Your .js files look good.'",
-    "test": "NODE_ENV=development node --trace-warnings jest --passWithNoTests --coverage",
-    "test:watch": "NODE_ENV=development node --trace-warnings jest --passWithNoTests --watch",
+    "test:basic": "NODE_ENV=development jest --detectOpenHandles --runInBand --passWithNoTests",
+    "test": "yarn test:basic --forceExit --coverage",
+    "test:watch": "yarn test:basic --watch",
     "docs": "dos2unix node_modules/.bin/docsify && docsify serve docs/",
     "coveralls:push": "cat ./coverage/lcov.info | coveralls",
     "p": "npm version patch && git push github master --tags"
