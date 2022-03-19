@@ -61,7 +61,7 @@ describe('graphqlHandler is ust apollo server maker', () => {
     });
   });
 
-  it('test mutation', async () => {
+  it('test mutation backcompatibility', async () => {
     GraphqlHandler(d)({
       resolvers: {
         Query: {
@@ -167,4 +167,5 @@ describe('graphqlHandler is ust apollo server maker', () => {
 
     expect(response.statusCode).toBe(404);
   });
+
 });
