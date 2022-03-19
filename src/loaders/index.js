@@ -8,7 +8,7 @@ const koaLoader = require('./koa');
 const loggerLoader = require('./logger');
 
 // require handlers wrapper graphql
-const GraphqlHandler = require('../handlers/graphql.js');
+const GraphqlHandler = require('../handlers/graphql');
 
 // exports everything, add all dependencies, load in order
 module.exports = () =>

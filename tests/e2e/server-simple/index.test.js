@@ -1,7 +1,7 @@
 const superagent = require('superagent');
 const { Server } = require('../../../src');
 
-describe('can create a server ', () => {
+describe('can create a server', () => {
   it('boot up ok', async () => {
     const { quit } = await Server(`${__dirname}/app.js`);
 

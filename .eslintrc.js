@@ -28,10 +28,24 @@ module.exports = {
     'global-require': 'off',
     'padded-blocks': 'off',
     'no-unused-vars': 'warn',
+    'no-return-assign': 'off',
     'no-param-reassign': ['error', { props: false }],
     radix: 'warn',
     'max-len': ['error', { code: 120, comments: 200, ignoreTrailingComments: true, ignoreUrls: true }],
     'prettier/prettier': ['error'],
   },
-  overrides: [],
+  overrides: [
+    {
+      files: ['tests/**/*.js'],
+      rules: {
+        'func-names': 'off',
+        'no-unused-vars': 'off',
+        'no-console': 'warn',
+        'no-return-assign': 'off',
+        'jest/no-commented-out-tests': 'off',
+        'prefer-const': 'off',
+        'no-new': 'off'
+      },
+    },
+  ],
 };

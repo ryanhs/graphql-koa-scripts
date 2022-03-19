@@ -6,7 +6,7 @@ const { PubSub: GraphqlPubSub } = require('graphql-subscriptions');
 const KoaApp = require('../../src/loaders/koa');
 const addHealthcheck = require('../../src/serve/addHealthcheck');
 
-describe('it add healthcheck functions ', () => {
+describe('it add healthcheck functions', () => {
   const graphqlPubSub = new GraphqlPubSub();
 
   it('add healthcheck', async () => {

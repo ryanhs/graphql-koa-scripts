@@ -1,6 +1,6 @@
 const { TestServer } = require('../../../src');
 
-describe('check health not found ', () => {
+describe('check health not found', () => {
   it('no /healthcheck', async () => {
     const App = {
       configure: () => ({ DISABLE_HEALTHCHECK: true }),

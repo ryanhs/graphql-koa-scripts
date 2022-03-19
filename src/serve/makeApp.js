@@ -1,5 +1,8 @@
 module.exports = async (d, App) => {
-  let dependencies = d;
+  let dependencies = { ...d };
+  const { hook } = d;
+
+  await hook.emit('makeApp:before', dependencies);
 
   // if app is function, and need dependencies, then give it
   const app =
@@ -9,13 +12,21 @@ module.exports = async (d, App) => {
 
   // App configure? combine dependencies then.
   if (typeof app.configure === 'function') {
+    await hook.emit('makeApp:configure:before', dependencies);
+
     dependencies = { ...dependencies, ...app.configure(dependencies) };
     dependencies.logger.trace('App configure called!', { service: 'configure' });
+
+    await hook.emit('makeApp:configure:after', dependencies);
   }
 
   // if app wants router, then pass it
   if (app.router) {
+    await hook.emit('makeApp:router:before', dependencies);
+
     await app.router(dependencies.koaRouter, dependencies);
+
+    await hook.emit('makeApp:router:after', dependencies);
   }
 
   // register hooks
@@ -31,6 +42,8 @@ module.exports = async (d, App) => {
       });
     });
   }
+
+  await hook.emit('makeApp:after', dependencies);
 
   return { ...dependencies, app }; // add app to dependencies
 };

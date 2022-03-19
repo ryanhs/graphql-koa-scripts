@@ -1,14 +1,20 @@
+const http = require('http');
+
 module.exports = async function listenHttp({ koa, hook, logger, PORT }) {
-  // listen
+  const httpServer = http.createServer();
   const port = PORT || process.env.PORT || 4001;
 
-  hook.emit('http:listen:before', { port });
+  // before listen, announce httpServer instance
+  await hook.emit('http:listen:before', { httpServer, port });
 
-  const httpServer = koa.listen(port, () => {
-    logger.info(`🚀 HTTP ready on port: ${port}`, { service: 'http' });
-    hook.emit('http:listen:after', { httpServer, port });
-  });
+  // listen
+  httpServer.on('request', koa.callback());
+  await new Promise((resolve) => httpServer.listen({ port }, resolve)); //eslint-disable-line
 
+  logger.info(`🚀 HTTP ready on port: ${port}`, { service: 'http' });
+  hook.emit('http:listen:after', { httpServer, port });
+
+  // on quit
   hook.on(
     'quit',
     () =>

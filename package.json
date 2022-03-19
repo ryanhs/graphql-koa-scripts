@@ -7,21 +7,27 @@
   "license": "MIT",
   "dependencies": {
     "@cloudnative/health": "^2.1.2",
-    "@koa/router": "^9.0.0",
-    "apollo-server-koa": "^2.13.1",
-    "apollo-server-testing": "^2.13.1",
+    "@graphql-tools/schema": "^8.3.3",
+    "@koa/router": "^10.1.1",
+    "apollo-server-core": "^3.6.4",
+    "apollo-server-koa": "^3.6.4",
     "bluebird": "^3.7.2",
     "bunyan": "^1.8.12",
-    "dotenv": "^8.2.0",
+    "dotenv": "^16.0.0",
     "flaverr": "^1.10.0",
-    "graphql": "^15.0.0",
-    "graphql-subscriptions": "^1.1.0",
+    "graphql": "^16.3.0",
+    "graphql-subscriptions": "^2.0.0",
+    "graphql-ws": "^5.6.3",
     "hook-emitter": "^4.1.0",
     "koa": "^2.11.0",
+    "meow": "^10.1.2",
+    "nodemon": "^2.0.4",
     "superagent": "^5.2.2",
-    "supertest": "^4.0.2"
+    "supertest": "^4.0.2",
+    "ws": "^8.5.0"
   },
   "devDependencies": {
+    "@faker-js/faker": "^5.5.3",
     "coveralls": "3.1.1",
     "docsify-cli": "4.4.4",
     "eslint": "8.11.0",
@@ -30,9 +36,9 @@
     "eslint-plugin-import": "2.25.4",
     "eslint-plugin-jest": "26.1.1",
     "eslint-plugin-prettier": "4.0.0",
+    "find-free-port": "^2.0.0",
     "jest": "27.5.1",
     "jest-date-mock": "1.0.8",
-    "meow": "^10.1.2",
     "nodemon": "^2.0.4",
     "prettier": "2.6.0"
   },
@@ -40,10 +46,10 @@
     "start": "npm run test:watch",
     "dev": "NODE_ENV=development nodemon src/cli/bin.js start",
     "debug": "NODE_ENV=development node ./debug.js",
-    "lint": "./node_modules/eslint/bin/eslint.js src/ tests/ --fix --max-warnings=0 --report-unused-disable-directives && echo '✔  Your .js files look good.'",
-    "test": "NODE_ENV=development node --trace-warnings node_modules/.bin/jest --passWithNoTests --coverage",
-    "test:watch": "NODE_ENV=development node --trace-warnings node_modules/.bin/jest --passWithNoTests --watch",
-    "docs": "dos2unix node_modules/docsify-cli/bin/docsify && docsify serve docs/",
+    "lint": "eslint -c .eslintrc.js src/ tests/ --fix --max-warnings=0 --report-unused-disable-directives && echo '✔  Your .js files look good.'",
+    "test": "NODE_ENV=development node --trace-warnings jest --passWithNoTests --coverage",
+    "test:watch": "NODE_ENV=development node --trace-warnings jest --passWithNoTests --watch",
+    "docs": "dos2unix node_modules/.bin/docsify && docsify serve docs/",
     "coveralls:push": "cat ./coverage/lcov.info | coveralls",
     "p": "npm version patch && git push github master --tags"
   },
@@ -51,7 +57,7 @@
     "graphql-koa-scripts": "./src/cli/bin.js"
   },
   "engines": {
-    "node": ">=12.22.0"
+    "node": ">=12.22.0 <12.99.0"
   },
   "jest": {
     "testEnvironment": "node",

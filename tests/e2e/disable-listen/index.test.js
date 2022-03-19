@@ -1,7 +1,7 @@
 const superagent = require('superagent');
 const { Server } = require('../../../src');
 
-describe('check disable listen ', () => {
+describe('check disable listen', () => {
   it('no listen', async () => {
     const App = {
       configure: () => ({ DISABLE_LISTEN: true, PORT: 13003 }),

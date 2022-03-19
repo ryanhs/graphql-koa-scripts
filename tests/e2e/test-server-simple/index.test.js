@@ -1,6 +1,6 @@
 const { TestServer } = require('../../../src');
 
-describe('can create test server ', () => {
+describe('can create test server', () => {
   it('boot up ok', async () => {
     const { quit } = await TestServer(`${__dirname}/app.js`);
     expect(1).toBe(1); // just boot up test

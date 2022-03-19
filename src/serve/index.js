@@ -20,5 +20,5 @@ module.exports = (d, App) =>
     // listenHttp
     .tap((dependencies) => dependencies.DISABLE_LISTEN || listenHttp(dependencies))
 
-    // added after served / listen all
+    // after all loaded
     .tap((dependencies) => dependencies.hook.emit('serve:ready'));

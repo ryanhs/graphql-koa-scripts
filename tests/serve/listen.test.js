@@ -1,4 +1,6 @@
 const Promise = require('bluebird');
+const getFreePort = require('find-free-port');
+const superagent = require('superagent');
 
 const HookEmitter = require('hook-emitter').default;
 const Bunyan = require('bunyan');
@@ -23,6 +25,7 @@ const buildDeps = async () => {
   });
 
   return {
+    PORT: (await getFreePort(20000))[0],
     koa,
     koaRouter,
     hook,
@@ -30,44 +33,28 @@ const buildDeps = async () => {
   };
 };
 
-describe('it listen http ', () => {
+describe('it listen http', () => {
   it('listen called', async () => {
     const dependencies = await buildDeps();
+
+    const helloWorld = function (req, res) {
+      res.writeHead(200, { 'Content-Type': 'text/plain' });
+      res.write('Hello_World');
+      res.end();
+    };
+    const helloWorldWrapper = { helloWorld };
+    const spy = jest.spyOn(helloWorldWrapper, 'helloWorld');
+
     const koa = {
-      listen: jest.fn().mockReturnValue('server'),
+      callback: () => helloWorldWrapper.helloWorld,
     };
 
-    await expect(listenHttp({ ...dependencies, koa })).resolves.toMatchObject({
-      httpServer: 'server',
-    });
-  });
+    await listenHttp({ ...dependencies, koa });
+    const s = await superagent(`http://localhost:${dependencies.PORT}/`);
 
-  it('check hook', async () => {
-    let callback;
+    expect(s.text).toBe('Hello_World');
+    expect(spy).toHaveBeenCalled();
 
-    const dependencies = await buildDeps();
-    const koa = {
-      listen: (port, cb) => {
-        callback = cb;
-        return 'server';
-      },
-    };
-
-    // trap hook
-    let listenBefore = 0;
-    let listenAfter = 0;
-    dependencies.hook.on('http:listen:before', () => {
-      listenBefore += 1;
-    });
-    dependencies.hook.on('http:listen:after', () => {
-      listenAfter += 1;
-    });
-
-    await expect(listenHttp({ ...dependencies, koa })).resolves.not.toThrow();
-
-    // call callback
-    callback();
-    expect(listenBefore).toBe(1);
-    expect(listenAfter).toBe(1);
+    await dependencies.hook.emit('quit');
   });
 });

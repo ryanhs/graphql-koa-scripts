@@ -1,7 +1,11 @@
 // const flaverr = require('flaverr');
-const { createTestClient } = require('apollo-server-testing');
 const http = require('http');
+const getFreePort = require('find-free-port');
 const request = require('supertest');
+const { PubSub: GraphqlPubSub } = require('graphql-subscriptions');
+const faker = require('@faker-js/faker');
+const bluebird = require('bluebird');
+const graphqlWS = require('graphql-ws');
 
 // needed for test
 const HookEmitter = require('hook-emitter').default;
@@ -24,27 +28,29 @@ describe('graphqlHandler is ust apollo server maker', () => {
       koa,
       koaRouter,
       logger,
+      graphqlPubSub: new GraphqlPubSub(),
+      DISABLE_LISTEN: true,
     };
   });
 
   it('can create successfully', async () => {
-    const handler = GraphqlHandler(d);
-
-    const graphqlClient = createTestClient(
-      await handler({
-        resolvers: {
-          Query: {
-            hello: () => 'Awesome!',
-          },
+    GraphqlHandler(d)({
+      resolvers: {
+        Query: {
+          hello: () => 'Awesome!',
         },
-        typeDefs: `
-        type Query {
-          hello: String!
-        }
-      `,
-        endpointUrl: '/graphql/dadadada',
-      }),
-    );
+      },
+      typeDefs: `
+      type Query {
+        hello: String!
+      }
+    `,
+      endpointUrl: '/graphql/dadadada',
+    });
+
+    let graphqlClient;
+    d.hook.on('http:graphqlHandler:added', (tmp) => (graphqlClient = tmp.apolloClient));
+    await d.hook.emit('makeApp:after', d);
 
     // test
     const req = graphqlClient.query({ query: '{ hello }' });
@@ -56,41 +62,46 @@ describe('graphqlHandler is ust apollo server maker', () => {
   });
 
   it('can create successfully, default endpointUrl', async () => {
-    const handler = GraphqlHandler(d);
-    const server = await handler({
+    GraphqlHandler(d)({
       resolvers: {
         Query: {
           hello: () => 'Awesome!',
         },
       },
       typeDefs: `
-        type Query {
-          hello: String!
-        }
-      `,
+      type Query {
+        hello: String!
+      }
+    `,
+      endpointUrl: '/graphql/dadadada',
     });
 
-    expect(server.config.endpointUrl).toBe('/graphql');
+    let server;
+    d.hook.on('http:graphqlHandler:added', (tmp) => (server = tmp.server));
+    await d.hook.emit('makeApp:after', d);
+
+    expect(server.config.endpointUrl).toBe('/graphql/dadadada');
   });
 
   it('can create successfully, have /schema for NODE_ENV=development', async () => {
     process.env.NODE_ENV = 'development';
 
     const typeDefs = `
-      type Query {
-        hello: String!
-      }
+    type Query {
+      hello: String!
+    }
     `;
 
-    const handler = GraphqlHandler(d);
-    const server = await handler({
+    GraphqlHandler(d)({
       resolvers: {
         Query: {
           hello: () => 'Awesome!',
         },
       },
       typeDefs,
+      endpointUrl: '/graphql',
     });
+    await d.hook.emit('makeApp:after', d);
 
     await request(http.createServer(d.koa.callback()))
       .get('/graphql/schema')
@@ -103,60 +114,87 @@ describe('graphqlHandler is ust apollo server maker', () => {
   it('can create successfully, NOT have /schema for NODE_ENV=production', async () => {
     process.env.NODE_ENV = 'production';
 
-    const typeDefs = `
-      type Query {
-        hello: String!
-      }
-    `;
-
-    const handler = GraphqlHandler(d);
-    const server = await handler({
+    GraphqlHandler(d)({
       resolvers: {
         Query: {
           hello: () => 'Awesome!',
         },
       },
-      typeDefs,
+      typeDefs: `
+      type Query {
+        hello: String!
+      }
+    `,
+      endpointUrl: '/graphql',
     });
+    await d.hook.emit('makeApp:after', d);
 
     const response = await request(http.createServer(d.koa.callback())).get('/graphql/schema');
 
     expect(response.statusCode).toBe(404);
   });
 
+  /*
+  // https://www.apollographql.com/docs/apollo-server/data/subscriptions/#the-pubsub-class
   it('can create Subscription', async () => {
-    const typeDefs = `
-      type Query {
-        hello: String!
-      }
-      type Subscription {
-        healthcheck: String
-      }
-    `;
+    d.DISABLE_LISTEN = false;
+    d.PORT = (await getFreePort(20000))[0];
+    console.log('free', d.PORT)
 
-    const handler = GraphqlHandler(d);
-    const server = await handler({
+    const pushNewName = async () => {
+      const newName = faker.name.findName();
+      // console.log(newName)
+      return d.graphqlPubSub.publish('NEW_NAME', { newName });
+    };
+    const publisherIval = setInterval(pushNewName, 100);
+
+    GraphqlHandler(d)({
       resolvers: {
         Query: {
           hello: () => 'Awesome!',
         },
         Subscription: {
-          healthcheck: {
-            subscribe: (payload /* , variables */) => typeof payload.healthcheck === 'string',
+          newName: {
+            subscribe: () => pubsub.asyncIterator(['NEW_NAME']),
           },
         },
       },
-      typeDefs,
+      typeDefs: `
+      type Query {
+        hello: String!
+      }
+      type Subscription {
+        newName: String
+      }
+    `,
+      endpointUrl: '/graphql',
     });
 
-    // something watching in http:listen:after
-    expect(d.hook.events.keys()).toContain('http:listen:after');
+    // run server
+    // await new Promise(resolve => d.hook.on('http:listen:before', resolve));
 
-    // mock httpServer
-    const httpServer = {
-      on: jest.fn(),
-    };
-    d.hook.emit('http:listen:after', { httpServer });
-    expect(httpServer.on).toBeCalled();
+    // create ws client
+    const wsClient = graphqlWS.createClient({
+      url: `ws://localhost:${d.PORT}/graphql`,
+    });
+
+
+
+
+
+    console.log('ws client!')
+    await pushNewName();
+
+    const NEW_NAME_SUBSCRIPTION = `
+      subscription OnNewName{
+        newName
+      }
+    `;
+
+
+
+    await bluebird.delay(1000);
+    clearInterval(publisherIval);
   });
+*/
 });
