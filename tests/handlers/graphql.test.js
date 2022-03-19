@@ -167,5 +167,4 @@ describe('graphqlHandler is ust apollo server maker', () => {
 
     expect(response.statusCode).toBe(404);
   });
-
 });

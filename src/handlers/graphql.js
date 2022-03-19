@@ -1,11 +1,29 @@
 const http = require('http');
 const { ApolloServer } = require('apollo-server-koa');
-const { ApolloServerPluginDrainHttpServer } = require('apollo-server-core');
+const {
+  ApolloServerPluginDrainHttpServer,
+  ApolloServerPluginLandingPageDisabled,
+  ApolloServerPluginLandingPageGraphQLPlayground,
+} = require('apollo-server-core');
 const { graphql } = require('graphql');
 const { makeExecutableSchema } = require('@graphql-tools/schema');
 
 const formatError = require('./graphqlFormatError');
 const makeSubscriptionHandlers = require('./makeSubscriptionHandlers');
+
+const makelandingPagePlugins = () => {
+  // production without landing page
+  if (process.env.NODE_ENV === 'production') {
+    return ApolloServerPluginLandingPageDisabled();
+  }
+
+  return ApolloServerPluginLandingPageGraphQLPlayground({
+    settings: {
+      'editor.theme': 'light',
+      'request.credentials': 'same-origin',
+    },
+  });
+};
 
 module.exports =
   ({ koaRouter, hook, logger }) =>
@@ -41,21 +59,15 @@ module.exports =
         endpointUrl,
         formatError,
         introspection: process.env.NODE_ENV === 'development',
-        playground:
-          process.env.NODE_ENV === 'production'
-            ? false
-            : {
-                settings: {
-                  'editor.theme': 'light',
-                  'request.credentials': 'same-origin',
-                },
-              },
+        debug: process.env.NODE_ENV === 'development',
+        logger: logger.child({ service: 'graphql', endpointUrl }),
         ...optionsRest,
         plugins: []
           .concat(
             options.plugins,
             [ApolloServerPluginDrainHttpServer({ httpServer })], // Proper shutdown for the HTTP server.
             subscriptionPlugins,
+            [makelandingPagePlugins()],
           )
           .filter((v) => !!v),
       });
