@@ -23,7 +23,7 @@
     "koa": "^2.11.0",
     "meow": "^7.0.1",
     "nodemon": "^2.0.4",
-    "superagent": "^7.1.1",
+    "superagent": "^8.0.0",
     "supertest": "^6.2.2",
     "ws": "^8.5.0"
   },
