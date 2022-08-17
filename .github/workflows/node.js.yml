@@ -20,14 +20,23 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    
-    # setup 
+
+    # setup
     - uses: actions/checkout@v3
     - name: use nodejs ${{ matrix.node-version }}
       uses: actions/setup-node@v3.4.1
       with:
         node-version: ${{ matrix.node-version }}
-        
+        cache: 'yarn'
+
     # check version
     - run: yarn version
     - run: node -v
+
+    # test
+    - run: yarn install --frozen-lockfile
+    - run: yarn test
+
+    # coverage
+    - run: echo $COVERALLS_TOKEN | tee .coveralls.yml
+    - run: yarn coveralls:push
