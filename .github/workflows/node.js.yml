@@ -38,5 +38,7 @@ jobs:
     - run: yarn test
 
     # coverage
-    - run: echo $COVERALLS_TOKEN | tee .coveralls.yml
-    - run: yarn coveralls:push
+    - name: Coveralls
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.COVERALLS_TOKEN }}
