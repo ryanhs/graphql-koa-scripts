@@ -13,6 +13,7 @@
     "apollo-server-koa": "^3.6.4",
     "bluebird": "^3.7.2",
     "bunyan": "^1.8.12",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.0.0",
     "flaverr": "^1.10.0",
     "graphql": "^16.3.0",
@@ -43,9 +44,9 @@
     "prettier": "2.6.0"
   },
   "scripts": {
-    "dev": "NODE_ENV=development nodemon src/cli/bin.js start",
-    "lint": "eslint -c .eslintrc.js src/ tests/ --fix --max-warnings=0 --report-unused-disable-directives && echo '✔  Your .js files look good.'",
-    "test:basic": "NODE_ENV=development jest --detectOpenHandles --runInBand --passWithNoTests",
+    "dev": "cross-env NODE_ENV=development nodemon src/cli/bin.js start",
+    "lint": "cross-env eslint -c .eslintrc.js src/ tests/ --fix --max-warnings=0 --report-unused-disable-directives && echo '✔  Your .js files look good.'",
+    "test:basic": "cross-env NODE_ENV=development jest --detectOpenHandles --runInBand --passWithNoTests",
     "test": "yarn test:basic --forceExit --coverage",
     "test:watch": "yarn test:basic --watch",
     "docs": "dos2unix node_modules/.bin/docsify && docsify serve docs/",
