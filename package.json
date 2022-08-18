@@ -12,7 +12,7 @@
     "apollo-server-core": "^3.6.4",
     "apollo-server-koa": "^3.6.4",
     "bluebird": "^3.7.2",
-    "bunyan": "^1.8.12",
+    "bunyan": "^1.8.15",
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.0",
     "flaverr": "^1.10.0",

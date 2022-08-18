@@ -3,7 +3,7 @@ const { ApolloServer } = require('apollo-server-koa');
 const {
   ApolloServerPluginDrainHttpServer,
   ApolloServerPluginLandingPageDisabled,
-  ApolloServerPluginLandingPageGraphQLPlayground,
+  ApolloServerPluginLandingPageLocalDefault,
 } = require('apollo-server-core');
 const { graphql } = require('graphql');
 const { makeExecutableSchema } = require('@graphql-tools/schema');
@@ -17,11 +17,12 @@ const makelandingPagePlugins = () => {
     return ApolloServerPluginLandingPageDisabled();
   }
 
-  return ApolloServerPluginLandingPageGraphQLPlayground({
-    settings: {
-      'editor.theme': 'light',
-      'request.credentials': 'same-origin',
-    },
+  return ApolloServerPluginLandingPageLocalDefault({
+    embed: true,
+    // settings: {
+    //   'editor.theme': 'light',
+    //   'request.credentials': 'same-origin',
+    // },
   });
 };
 

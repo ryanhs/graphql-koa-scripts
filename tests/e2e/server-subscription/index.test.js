@@ -105,12 +105,14 @@ describe('can create a server inline', () => {
         );
       });
 
+      const delayTime = 500;
+
       // let subscriber connect
-      await bluebird.delay(50);
+      await bluebird.delay(delayTime);
 
       // push a name
       await pushNewName(newName);
-      await bluebird.delay(50);
+      await bluebird.delay(delayTime);
 
       // unsubscribe
       await unsubscribe();
