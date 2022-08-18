@@ -105,7 +105,7 @@ describe('can create a server inline', () => {
         );
       });
 
-      const delayTime = 500;
+      const delayTime = 50;
 
       // let subscriber connect
       await bluebird.delay(delayTime);
