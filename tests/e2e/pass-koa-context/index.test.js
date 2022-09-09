@@ -2,13 +2,6 @@ const superagent = require('superagent');
 const { Server } = require('../../../src');
 
 describe('can create a server', () => {
-  it('boot up ok', async () => {
-    const { quit, PORT } = await Server(`${__dirname}/app.js`);
-
-    expect(1).toBe(1);
-
-    return quit();
-  });
 
   it('try graphql', async () => {
     const { quit, PORT } = await Server(`${__dirname}/app.js`);
@@ -17,10 +10,11 @@ describe('can create a server', () => {
       query: '{ hello }',
     });
 
+    // console.log((await res).body);
     await expect(res).resolves.toMatchObject({
       body: {
         data: {
-          hello: 'Awesome!',
+          hello: 'hello dadang1!',
         },
       },
     });
