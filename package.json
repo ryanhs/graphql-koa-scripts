@@ -21,7 +21,7 @@
     "graphql-ws": "^5.6.3",
     "hook-emitter": "^4.1.0",
     "koa": "^2.11.0",
-    "meow": "^7.0.1",
+    "meow": "^11.0.0",
     "nodemon": "^2.0.4",
     "superagent": "^7.1.1",
     "supertest": "^6.2.2",
