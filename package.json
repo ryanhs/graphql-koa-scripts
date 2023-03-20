@@ -41,7 +41,7 @@
     "jest": "27.5.1",
     "jest-date-mock": "1.0.8",
     "nodemon": "2.0.21",
-    "prettier": "2.8.4"
+    "prettier": "2.8.5"
   },
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon src/cli/bin.js start",
