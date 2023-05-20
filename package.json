@@ -31,7 +31,7 @@
     "@faker-js/faker": "5.5.3",
     "coveralls": "3.1.1",
     "docsify-cli": "4.4.4",
-    "eslint": "8.40.0",
+    "eslint": "8.41.0",
     "eslint-config-airbnb-base": "15.0.0",
     "eslint-config-prettier": "8.8.0",
     "eslint-plugin-import": "2.27.5",
