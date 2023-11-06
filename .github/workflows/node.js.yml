@@ -22,7 +22,7 @@ jobs:
     steps:
 
     # setup
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: use nodejs ${{ matrix.node-version }}
       uses: actions/setup-node@v3.8.2
       with:
