@@ -39,7 +39,7 @@
     "eslint-plugin-prettier": "4.2.1",
     "find-free-port": "2.0.0",
     "jest": "27.5.1",
-    "jest-date-mock": "1.0.8",
+    "jest-date-mock": "1.0.10",
     "nodemon": "2.0.22",
     "prettier": "2.8.8"
   },
