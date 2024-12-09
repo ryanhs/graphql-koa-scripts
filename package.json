@@ -28,7 +28,7 @@
     "ws": "^8.5.0"
   },
   "devDependencies": {
-    "@faker-js/faker": "5.5.3",
+    "@faker-js/faker": "9.3.0",
     "coveralls": "3.1.1",
     "docsify-cli": "4.4.4",
     "eslint": "8.57.0",
